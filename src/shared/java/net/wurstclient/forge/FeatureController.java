@@ -82,7 +82,7 @@ public final class FeatureController {
 	private final FeatureList features;
 	private boolean inPublicSpace;
 	private String serverName;
-	private long lastWorldLoad;
+	private long timeOfLastWorldLoad;
 	private int blankMessageCounter;
 	private boolean interceptingPlayerInfo;
 	private boolean interceptingServerInfo;
@@ -157,7 +157,7 @@ public final class FeatureController {
 	
 	@SubscribeEvent
     public void onEntityJoinWorld(EntityJoinWorldEvent event) {
-		
+				
 		// Only continue if playing on a skyblock.net server
 		ServerData server = Minecraft.getMinecraft().getCurrentServerData();
 		if (server == null || !server.serverIP.matches(".*skyblock\\.(com|net|org)")) {
@@ -176,15 +176,13 @@ public final class FeatureController {
 		// Try to avoid any unnecessary worldload events
 		EntityPlayerSP player = WMinecraft.getPlayer();
 		long currentTime = System.currentTimeMillis();
-		long sinceLastWorldLoad = currentTime - lastWorldLoad;
-		lastWorldLoad = currentTime;
-		if (sinceLastWorldLoad < 1000L || player.isDead || player.dimension == -1)
+		if ((timeOfLastWorldLoad != 0 && currentTime <= timeOfLastWorldLoad + 500L) || player.isDead || player.dimension == -1)
 			return;
+		timeOfLastWorldLoad = currentTime;
 		
 		// Send the message, start waiting for the response to see which server the player is on
 		player.sendChatMessage("/server");
 		interceptingServerInfo = true;
-		
     }
 	
 	
