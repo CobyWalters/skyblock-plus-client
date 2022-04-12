@@ -12,6 +12,12 @@ You can view the releases here: https://github.com/CobyWalters/skyblock-plus-cli
 
 3) Move the jar file into your mods folder, and you are good to go!
 
+
+## Usage
+The default bind for mod settings is Right Shift
+
+Typing .help in chat will bring up a list of useful commands
+
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
