@@ -10,36 +10,31 @@ package net.wurstclient.fmlevents;
 import net.minecraft.block.state.IBlockState;
 import net.minecraftforge.fml.common.eventhandler.Event;
 
-public final class WShouldSideBeRenderedEvent extends Event
-{
+public final class WShouldSideBeRenderedEvent extends Event {
+	
 	private final IBlockState state;
 	private boolean rendered;
 	private final boolean normallyRendered;
 	
-	public WShouldSideBeRenderedEvent(IBlockState state, boolean rendered)
-	{
+	public WShouldSideBeRenderedEvent(IBlockState state, boolean rendered) {
 		this.state = state;
 		this.rendered = rendered;
 		normallyRendered = rendered;
 	}
 	
-	public IBlockState getState()
-	{
+	public IBlockState getState() {
 		return state;
 	}
 	
-	public boolean isRendered()
-	{
+	public boolean isRendered() {
 		return rendered;
 	}
 	
-	public void setRendered(boolean rendered)
-	{
+	public void setRendered(boolean rendered) {
 		this.rendered = rendered;
 	}
 	
-	public boolean isNormallyRendered()
-	{
+	public boolean isNormallyRendered() {
 		return normallyRendered;
 	}
 }

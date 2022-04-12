@@ -14,61 +14,52 @@ import net.wurstclient.forge.ForgeWurst;
 import net.wurstclient.forge.clickgui.Checkbox;
 import net.wurstclient.forge.clickgui.Component;
 
-public final class CheckboxSetting extends Setting
-{
+public final class CheckboxSetting extends Setting {
 	private boolean checked;
 	private final boolean checkedByDefault;
 	
-	public CheckboxSetting(String name, String description, boolean checked)
-	{
+	public CheckboxSetting(String name, String description, boolean checked) {
 		super(name, description);
 		this.checked = checked;
 		checkedByDefault = checked;
 	}
 	
-	public CheckboxSetting(String name, boolean checked)
-	{
+	public CheckboxSetting(String name, boolean checked) {
 		this(name, null, checked);
 	}
 	
-	public boolean isChecked()
-	{
+	public boolean isChecked() {
 		return checked;
 	}
 	
-	public boolean isCheckedByDefault()
-	{
+	public boolean isCheckedByDefault() {
 		return checkedByDefault;
 	}
 	
-	public void setChecked(boolean checked)
-	{
+	public void setChecked(boolean checked) {
 		this.checked = checked;
-		ForgeWurst.getForgeWurst().getHax().saveSettings();
+		ForgeWurst.getForgeWurst().getFeatures().saveSettings();
 	}
 	
 	@Override
-	public Component getComponent()
-	{
+	public Component getComponent() {
 		return new Checkbox(this);
 	}
 	
 	@Override
-	public void fromJson(JsonElement json)
-	{
-		if(!json.isJsonPrimitive())
+	public void fromJson(JsonElement json) {
+		if (!json.isJsonPrimitive())
 			return;
 		
 		JsonPrimitive primitive = json.getAsJsonPrimitive();
-		if(!primitive.isBoolean())
+		if (!primitive.isBoolean())
 			return;
 		
 		setChecked(primitive.getAsBoolean());
 	}
 	
 	@Override
-	public JsonElement toJson()
-	{
+	public JsonElement toJson() {
 		return new JsonPrimitive(checked);
 	}
 }

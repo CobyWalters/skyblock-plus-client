@@ -9,10 +9,10 @@ package net.wurstclient.forge.compatibility;
 
 import net.minecraft.client.Minecraft;
 
-public final class WChat
-{
-	public static void clearMessages()
-	{
+public final class WChat {
+	
+	public static void clearMessages() {
 		Minecraft.getMinecraft().ingameGUI.getChatGUI().clearChatMessages(true);
 	}
+	
 }

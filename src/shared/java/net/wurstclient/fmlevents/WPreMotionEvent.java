@@ -10,17 +10,15 @@ package net.wurstclient.fmlevents;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraftforge.fml.common.eventhandler.Event;
 
-public final class WPreMotionEvent extends Event
-{
+public final class WPreMotionEvent extends Event {
+	
 	private final EntityPlayerSP player;
 	
-	public WPreMotionEvent(EntityPlayerSP player)
-	{
+	public WPreMotionEvent(EntityPlayerSP player) {
 		this.player = player;
 	}
 	
-	public EntityPlayerSP getPlayer()
-	{
+	public EntityPlayerSP getPlayer() {
 		return player;
 	}
 }

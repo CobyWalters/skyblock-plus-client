@@ -8,19 +8,25 @@
 package net.wurstclient.forge.compatibility;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
-public final class WPlayerController
-{
+public final class WPlayerController {
 	private static final Minecraft mc = Minecraft.getMinecraft();
 	
-	public static void processRightClickBlock(BlockPos pos, EnumFacing side,
-		Vec3d hitVec)
-	{
-		mc.playerController.processRightClickBlock(WMinecraft.getPlayer(),
-			WMinecraft.getWorld(), pos, side, hitVec, EnumHand.MAIN_HAND);
+	public static void processRightClickBlock(BlockPos pos, EnumFacing side, Vec3d hitVec) {
+		mc.playerController.processRightClickBlock(WMinecraft.getPlayer(), WMinecraft.getWorld(), pos, side, hitVec, EnumHand.MAIN_HAND);
+	}
+	
+	public static void processRightClick() {
+		mc.playerController.processRightClick(WMinecraft.getPlayer(), WMinecraft.getWorld(), EnumHand.MAIN_HAND);
+	}
+	
+	public static void interactWithEntity(EntityPlayer entityplayer, Entity entity) {
+		mc.playerController.interactWithEntity(entityplayer, entity, EnumHand.MAIN_HAND);
 	}
 }

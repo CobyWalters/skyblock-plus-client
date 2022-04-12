@@ -15,8 +15,7 @@ import net.wurstclient.forge.clickgui.Component;
 import net.wurstclient.forge.clickgui.Slider;
 import net.wurstclient.forge.utils.MathUtils;
 
-public final class SliderSetting extends Setting
-{
+public final class SliderSetting extends Setting {
 	private double value;
 	private final double defaultValue;
 	private final double min;
@@ -25,8 +24,7 @@ public final class SliderSetting extends Setting
 	private final ValueDisplay display;
 	
 	public SliderSetting(String name, String description, double value,
-		double min, double max, double increment, ValueDisplay display)
-	{
+		double min, double max, double increment, ValueDisplay display) {
 		super(name, description);
 		this.value = value;
 		defaultValue = value;
@@ -36,65 +34,53 @@ public final class SliderSetting extends Setting
 		this.display = display;
 	}
 	
-	public SliderSetting(String name, double value, double min, double max,
-		double increment, ValueDisplay display)
-	{
+	public SliderSetting(String name, double value, double min, double max, double increment, ValueDisplay display) {
 		this(name, null, value, min, max, increment, display);
 	}
 	
-	public double getValue()
-	{
+	public double getValue() {
 		return value;
 	}
 	
-	public float getValueF()
-	{
+	public float getValueF() {
 		return (float)value;
 	}
 	
-	public int getValueI()
-	{
+	public int getValueI() {
 		return (int)value;
 	}
 	
-	public String getValueString()
-	{
+	public String getValueString() {
 		return display.getValueString(value);
 	}
 	
-	public double getDefaultValue()
-	{
+	public double getDefaultValue() {
 		return defaultValue;
 	}
 	
-	public void setValue(double value)
-	{
+	public void setValue(double value) {
 		value = Math.round(value / increment) * increment;
 		value = MathUtils.clamp(value, min, max);
 		
 		this.value = value;
-		ForgeWurst.getForgeWurst().getHax().saveSettings();
+		ForgeWurst.getForgeWurst().getFeatures().saveSettings();
 	}
 	
-	public double getMin()
-	{
+	public double getMin() {
 		return min;
 	}
 	
-	public double getMax()
-	{
+	public double getMax() {
 		return max;
 	}
 	
 	@Override
-	public Component getComponent()
-	{
+	public Component getComponent() {
 		return new Slider(this);
 	}
 	
 	@Override
-	public void fromJson(JsonElement json)
-	{
+	public void fromJson(JsonElement json) {
 		if(!json.isJsonPrimitive())
 			return;
 		
@@ -106,18 +92,14 @@ public final class SliderSetting extends Setting
 	}
 	
 	@Override
-	public JsonElement toJson()
-	{
+	public JsonElement toJson() {
 		return new JsonPrimitive(Math.round(value * 1e6) / 1e6);
 	}
 	
-	public static interface ValueDisplay
-	{
-		public static final ValueDisplay DECIMAL =
-			v -> Math.round(v * 1e6) / 1e6 + "";
+	public static interface ValueDisplay {
+		public static final ValueDisplay DECIMAL = v -> Math.round(v * 1e6) / 1e6 + "";
 		public static final ValueDisplay INTEGER = v -> (int)v + "";
-		public static final ValueDisplay PERCENTAGE =
-			v -> (int)(Math.round(v * 1e8) / 1e6) + "%";
+		public static final ValueDisplay PERCENTAGE = v -> (int)(Math.round(v * 1e8) / 1e6) + "%";
 		public static final ValueDisplay DEGREES = v -> (int)v + "°";
 		public static final ValueDisplay NONE = v -> "";
 		

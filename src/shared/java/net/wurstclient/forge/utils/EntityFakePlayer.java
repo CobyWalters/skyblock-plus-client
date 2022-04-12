@@ -11,17 +11,15 @@ import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.entity.player.EntityPlayer;
 import net.wurstclient.forge.compatibility.WMinecraft;
 
-public class EntityFakePlayer extends EntityOtherPlayerMP
-{
-	public EntityFakePlayer()
-	{
+public class EntityFakePlayer extends EntityOtherPlayerMP {
+	
+	public EntityFakePlayer() {
 		super(WMinecraft.getWorld(), WMinecraft.getPlayer().getGameProfile());
 		copyLocationAndAnglesFrom(WMinecraft.getPlayer());
 		
 		// fix inventory
 		inventory.copyInventory(WMinecraft.getPlayer().inventory);
-		getDataManager().set(EntityPlayer.PLAYER_MODEL_FLAG, WMinecraft
-			.getPlayer().getDataManager().get(EntityPlayer.PLAYER_MODEL_FLAG));
+		getDataManager().set(EntityPlayer.PLAYER_MODEL_FLAG, WMinecraft.getPlayer().getDataManager().get(EntityPlayer.PLAYER_MODEL_FLAG));
 		
 		// fix rotation
 		rotationYawHead = WMinecraft.getPlayer().rotationYawHead;
@@ -36,14 +34,11 @@ public class EntityFakePlayer extends EntityOtherPlayerMP
 		WMinecraft.getWorld().addEntityToWorld(getEntityId(), this);
 	}
 	
-	public void resetPlayerPosition()
-	{
-		WMinecraft.getPlayer().setPositionAndRotation(posX, posY, posZ,
-			rotationYaw, rotationPitch);
+	public void resetPlayerPosition() {
+		WMinecraft.getPlayer().setPositionAndRotation(posX, posY, posZ, rotationYaw, rotationPitch);
 	}
 	
-	public void despawn()
-	{
+	public void despawn() {
 		WMinecraft.getWorld().removeEntityFromWorld(getEntityId());
 	}
 }

@@ -11,8 +11,8 @@ import java.util.ArrayList;
 
 import net.wurstclient.forge.compatibility.WMinecraft;
 
-public final class Window
-{
+public final class Window {
+	
 	private String title;
 	private int x;
 	private int y;
@@ -45,95 +45,81 @@ public final class Window
 	private boolean draggingScrollbar;
 	private int scrollbarDragOffsetY;
 	
-	public Window(String title)
-	{
+	public Window(String title) {
 		this.title = title;
 	}
 	
-	public String getTitle()
-	{
+	public String getTitle() {
 		return title;
 	}
 	
-	public void setTitle(String title)
-	{
+	public void setTitle(String title) {
 		this.title = title;
 	}
 	
-	public int getX()
-	{
+	public int getX() {
 		return x;
 	}
 	
-	public void setX(int x)
-	{
+	public void setX(int x) {
 		this.x = x;
 	}
 	
-	public int getY()
-	{
+	public int getY() {
 		return y;
 	}
 	
-	public void setY(int y)
-	{
+	public void setY(int y) {
 		this.y = y;
 	}
 	
-	public int getWidth()
-	{
+	public int getWidth() {
 		return width;
 	}
 	
-	public void setWidth(int width)
-	{
+	public void setWidth(int width) {
 		if(this.width != width)
 			invalidate();
 		
 		this.width = width;
 	}
 	
-	public int getHeight()
-	{
+	public int getHeight() {
 		return height;
 	}
 	
-	public void setHeight(int height)
-	{
+	public void setHeight(int height) {
 		if(this.height != height)
 			invalidate();
 		
 		this.height = height;
 	}
 	
-	public void pack()
-	{
+	public void pack() {
 		int maxChildWidth = 0;
-		for(Component c : children)
-			if(c.getWidth() > maxChildWidth)
+		for (Component c : children)
+			if (c.getWidth() > maxChildWidth)
 				maxChildWidth = c.getDefaultWidth();
 		maxChildWidth += 4;
 		
 		int titleBarWidth =
 			WMinecraft.getFontRenderer().getStringWidth(title) + 4;
-		if(minimizable)
+		if (minimizable)
 			titleBarWidth += 11;
-		if(pinnable)
+		if (pinnable)
 			titleBarWidth += 11;
-		if(closable)
+		if (closable)
 			titleBarWidth += 11;
 		
 		int childrenHeight = 13;
-		for(Component c : children)
+		for (Component c : children)
 			childrenHeight += c.getHeight() + 2;
 		childrenHeight += 2;
 		
-		if(childrenHeight > maxHeight + 13 && maxHeight > 0)
-		{
+		if (childrenHeight > maxHeight + 13 && maxHeight > 0) {
 			setWidth(Math.max(maxChildWidth + 3, titleBarWidth));
 			setHeight(maxHeight + 13);
-		}else
-		{
+		} else {
 			setWidth(Math.max(maxChildWidth, titleBarWidth));
 			setHeight(childrenHeight);
 		}
@@ -141,15 +127,13 @@ public final class Window
 		validate();
 	}
 	
-	public void validate()
-	{
-		if(valid)
+	public void validate() {
+		if (valid)
 			return;
 		
 		int offsetY = 2;
 		int cWidth = width - 4;
-		for(Component c : children)
-		{
+		for (Component c : children) {
 			c.setX(2);
 			c.setY(offsetY);
 			c.setWidth(cWidth);
@@ -158,201 +142,168 @@ public final class Window
 		
 		innerHeight = offsetY;
 		
-		if(maxHeight == 0)
+		if (maxHeight == 0)
 			setHeight(innerHeight + 13);
-		else if(height > maxHeight + 13)
+		else if (height > maxHeight + 13)
 			setHeight(maxHeight + 13);
-		else if(height < maxHeight + 13)
+		else if (height < maxHeight + 13)
 			setHeight(Math.min(maxHeight + 13, innerHeight + 13));
 		
 		scrollingEnabled = innerHeight > height - 13;
-		if(scrollingEnabled)
+		if (scrollingEnabled)
 			cWidth -= 3;
 		
 		scrollOffset = Math.min(scrollOffset, 0);
 		scrollOffset = Math.max(scrollOffset, -innerHeight + height - 13);
 		
-		for(Component c : children)
+		for (Component c : children)
 			c.setWidth(cWidth);
 		
 		valid = true;
 	}
 	
-	public void invalidate()
-	{
+	public void invalidate() {
 		valid = false;
 	}
 	
-	public int countChildren()
-	{
+	public int countChildren() {
 		return children.size();
 	}
 	
-	public Component getChild(int index)
-	{
+	public Component getChild(int index) {
 		return children.get(index);
 	}
 	
-	public void add(Component component)
-	{
+	public void add(Component component) {
 		children.add(component);
 		component.setParent(this);
 		invalidate();
 	}
 	
-	public void remove(int index)
-	{
+	public void remove(int index) {
 		children.get(index).setParent(null);
 		children.remove(index);
 		invalidate();
 	}
 	
-	public void remove(Component component)
-	{
+	public void remove(Component component) {
 		children.remove(component);
 		component.setParent(null);
 		invalidate();
 	}
 	
-	public boolean isDragging()
-	{
+	public boolean isDragging() {
 		return dragging;
 	}
 	
-	public void startDragging(int mouseX, int mouseY)
-	{
+	public void startDragging(int mouseX, int mouseY) {
 		dragging = true;
 		dragOffsetX = x - mouseX;
 		dragOffsetY = y - mouseY;
 	}
 	
-	public void dragTo(int mouseX, int mouseY)
-	{
+	public void dragTo(int mouseX, int mouseY) {
 		x = mouseX + dragOffsetX;
 		y = mouseY + dragOffsetY;
 	}
 	
-	public void stopDragging()
-	{
+	public void stopDragging() {
 		dragging = false;
 		dragOffsetX = 0;
 		dragOffsetY = 0;
 	}
 	
-	public boolean isMinimized()
-	{
+	public boolean isMinimized() {
 		return minimized;
 	}
 	
-	public void setMinimized(boolean minimized)
-	{
+	public void setMinimized(boolean minimized) {
 		this.minimized = minimized;
 	}
 	
-	public boolean isMinimizable()
-	{
+	public boolean isMinimizable() {
 		return minimizable;
 	}
 	
-	public void setMinimizable(boolean minimizable)
-	{
+	public void setMinimizable(boolean minimizable) {
 		this.minimizable = minimizable;
 	}
 	
-	public boolean isPinned()
-	{
+	public boolean isPinned() {
 		return pinned;
 	}
 	
-	public void setPinned(boolean pinned)
-	{
+	public void setPinned(boolean pinned) {
 		this.pinned = pinned;
 	}
 	
-	public boolean isPinnable()
-	{
+	public boolean isPinnable() {
 		return pinnable;
 	}
 	
-	public void setPinnable(boolean pinnable)
-	{
+	public void setPinnable(boolean pinnable) {
 		this.pinnable = pinnable;
 	}
 	
-	public boolean isClosable()
-	{
+	public boolean isClosable() {
 		return closable;
 	}
 	
-	public void setClosable(boolean closable)
-	{
+	public void setClosable(boolean closable) {
 		this.closable = closable;
 	}
 	
-	public boolean isClosing()
-	{
+	public boolean isClosing() {
 		return closing;
 	}
 	
-	public void close()
-	{
+	public void close() {
 		closing = true;
 	}
 	
-	public boolean isInvisible()
-	{
+	public boolean isInvisible() {
 		return invisible;
 	}
 	
-	public void setInvisible(boolean invisible)
-	{
+	public void setInvisible(boolean invisible) {
 		this.invisible = invisible;
 	}
 	
-	public int getInnerHeight()
-	{
+	public int getInnerHeight() {
 		return innerHeight;
 	}
 	
-	public void setMaxHeight(int maxHeight)
-	{
-		if(this.maxHeight != maxHeight)
+	public void setMaxHeight(int maxHeight) {
+		if (this.maxHeight != maxHeight)
 			invalidate();
 		
 		this.maxHeight = maxHeight;
 	}
 	
-	public int getScrollOffset()
-	{
+	public int getScrollOffset() {
 		return scrollOffset;
 	}
 	
-	public void setScrollOffset(int scrollOffset)
-	{
+	public void setScrollOffset(int scrollOffset) {
 		this.scrollOffset = scrollOffset;
 	}
 	
-	public boolean isScrollingEnabled()
-	{
+	public boolean isScrollingEnabled() {
 		return scrollingEnabled;
 	}
 	
-	public boolean isDraggingScrollbar()
-	{
+	public boolean isDraggingScrollbar() {
 		return draggingScrollbar;
 	}
 	
-	public void startDraggingScrollbar(int mouseY)
-	{
+	public void startDraggingScrollbar(int mouseY) {
 		draggingScrollbar = true;
 		double outerHeight = height - 13;
-		double scrollbarY =
-			outerHeight * (-scrollOffset / (double)innerHeight) + 1;
+		double scrollbarY = outerHeight * (-scrollOffset / (double)innerHeight) + 1;
 		scrollbarDragOffsetY = (int)(scrollbarY - mouseY);
 	}
 	
-	public void dragScrollbarTo(int mouseY)
-	{
+	public void dragScrollbarTo(int mouseY) {
 		int scrollbarY = mouseY + scrollbarDragOffsetY;
 		double outerHeight = height - 13;
 		scrollOffset = (int)((scrollbarY - 1) / outerHeight * innerHeight * -1);
@@ -360,8 +311,7 @@ public final class Window
 		scrollOffset = Math.max(scrollOffset, -innerHeight + height - 13);
 	}
 	
-	public void stopDraggingScrollbar()
-	{
+	public void stopDraggingScrollbar() {
 		draggingScrollbar = false;
 		scrollbarDragOffsetY = 0;
 	}

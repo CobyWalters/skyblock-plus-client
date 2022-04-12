@@ -10,37 +10,31 @@ package net.wurstclient.fmlevents;
 import net.minecraft.block.state.IBlockState;
 import net.minecraftforge.fml.common.eventhandler.Event;
 
-public final class WGetAmbientOcclusionLightValueEvent extends Event
-{
+public final class WGetAmbientOcclusionLightValueEvent extends Event {
+	
 	private final IBlockState state;
 	private float lightValue;
 	private final float defaultLightValue;
 	
-	public WGetAmbientOcclusionLightValueEvent(IBlockState state,
-		float lightValue)
-	{
+	public WGetAmbientOcclusionLightValueEvent(IBlockState state, float lightValue) {
 		this.state = state;
 		this.lightValue = lightValue;
 		defaultLightValue = lightValue;
 	}
 	
-	public IBlockState getState()
-	{
+	public IBlockState getState() {
 		return state;
 	}
 	
-	public float getLightValue()
-	{
+	public float getLightValue() {
 		return lightValue;
 	}
 	
-	public void setLightValue(float lightValue)
-	{
+	public void setLightValue(float lightValue) {
 		this.lightValue = lightValue;
 	}
 	
-	public float getDefaultLightValue()
-	{
+	public float getDefaultLightValue() {
 		return defaultLightValue;
 	}
 }

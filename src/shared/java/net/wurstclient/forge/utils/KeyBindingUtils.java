@@ -13,27 +13,21 @@ import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
 import net.wurstclient.forge.ForgeWurst;
 
-public final class KeyBindingUtils
-{
+public final class KeyBindingUtils {
+	
 	private static ForgeWurst wurst = ForgeWurst.getForgeWurst();
 	
-	public static void setPressed(KeyBinding binding, boolean pressed)
-	{
-		try
-		{
-			Field field = binding.getClass().getDeclaredField(
-				wurst.isObfuscated() ? "field_74513_e" : "pressed");
+	public static void setPressed(KeyBinding binding, boolean pressed) {
+		try {
+			Field field = binding.getClass().getDeclaredField(wurst.isObfuscated() ? "field_74513_e" : "pressed");
 			field.setAccessible(true);
 			field.setBoolean(binding, pressed);
-			
-		}catch(ReflectiveOperationException e)
-		{
+		} catch (ReflectiveOperationException e) {
 			throw new RuntimeException(e);
 		}
 	}
 	
-	public static void resetPressed(KeyBinding binding)
-	{
+	public static void resetPressed(KeyBinding binding) {
 		setPressed(binding, GameSettings.isKeyDown(binding));
 	}
 }

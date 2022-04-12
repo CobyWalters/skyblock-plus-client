@@ -12,46 +12,41 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
-public final class NetworkManagerVisitor extends WurstClassVisitor
-{
-	public NetworkManagerVisitor(ClassVisitor cv, boolean obf)
-	{
+public final class NetworkManagerVisitor extends WurstClassVisitor {
+	
+	public NetworkManagerVisitor(ClassVisitor cv, boolean obf) {
 		super(cv);
 		
 		String packet = unmap("net/minecraft/network/Packet");
 		
 		String channelRead0_name = obf ? "a" : "channelRead0";
-		String channelRead0_desc =
-			"(Lio/netty/channel/ChannelHandlerContext;L" + packet + ";)V";
+		String channelRead0_desc = "(Lio/netty/channel/ChannelHandlerContext;L" + packet + ";)V";
 		
-		registerMethodVisitor(channelRead0_name, channelRead0_desc,
-			mv -> new ChannelRead0Visitor(mv));
+		registerMethodVisitor(channelRead0_name, channelRead0_desc, mv -> new ChannelRead0Visitor(mv));
 	}
 	
-	private static class ChannelRead0Visitor extends MethodVisitor
-	{
+	private static class ChannelRead0Visitor extends MethodVisitor {
 		private boolean done;
 		
-		public ChannelRead0Visitor(MethodVisitor mv)
-		{
+		public ChannelRead0Visitor(MethodVisitor mv) {
 			super(Opcodes.ASM4, mv);
 		}
 		
 		@Override
-		public void visitJumpInsn(int opcode, Label label)
-		{
+		public void visitJumpInsn(int opcode, Label label) {
 			super.visitJumpInsn(opcode, label);
 			
-			if(done || opcode != Opcodes.IFEQ)
+			if (done || opcode != Opcodes.IFEQ)
 				return;
 			
-			System.out.println(
-				"NetworkManagerVisitor.ChannelRead0Visitor.visitJumpInsn()");
+			System.out.println("NetworkManagerVisitor.ChannelRead0Visitor.visitJumpInsn()");
 			
 			mv.visitVarInsn(Opcodes.ALOAD, 2);
 			mv.visitMethodInsn(Opcodes.INVOKESTATIC,
-				"net/wurstclient/forge/compatibility/WEventFactory",
-				"onReceivePacket", "(Lnet/minecraft/network/Packet;)Z", false);
+							   "net/wurstclient/forge/compatibility/WEventFactory",
+							   "onReceivePacket",
+							   "(Lnet/minecraft/network/Packet;)Z",
+							   false);
 			Label l1 = new Label();
 			mv.visitJumpInsn(Opcodes.IFNE, l1);
 			mv.visitInsn(Opcodes.RETURN);

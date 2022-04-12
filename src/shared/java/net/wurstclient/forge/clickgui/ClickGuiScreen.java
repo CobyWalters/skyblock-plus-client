@@ -11,32 +11,27 @@ import java.io.IOException;
 
 import net.minecraft.client.gui.GuiScreen;
 
-public final class ClickGuiScreen extends GuiScreen
-{
+public final class ClickGuiScreen extends GuiScreen {
+	
 	private final ClickGui gui;
 	
-	public ClickGuiScreen(ClickGui gui)
-	{
+	public ClickGuiScreen(ClickGui gui) {
 		this.gui = gui;
 	}
 	
 	@Override
-	public boolean doesGuiPauseGame()
-	{
+	public boolean doesGuiPauseGame() {
 		return false;
 	}
 	
 	@Override
-	protected void mouseClicked(int mouseX, int mouseY, int mouseButton)
-		throws IOException
-	{
+	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
 		super.mouseClicked(mouseX, mouseY, mouseButton);
 		gui.handleMouseClick(mouseX, mouseY, mouseButton);
 	}
 	
 	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks)
-	{
+	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		super.drawScreen(mouseX, mouseY, partialTicks);
 		gui.render(mouseX, mouseY, partialTicks);
 	}

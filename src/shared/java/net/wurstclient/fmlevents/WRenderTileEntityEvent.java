@@ -12,17 +12,15 @@ import net.minecraftforge.fml.common.eventhandler.Cancelable;
 import net.minecraftforge.fml.common.eventhandler.Event;
 
 @Cancelable
-public final class WRenderTileEntityEvent extends Event
-{
+public final class WRenderTileEntityEvent extends Event {
+	
 	private final TileEntity tileEntity;
 	
-	public WRenderTileEntityEvent(TileEntity tileEntity)
-	{
+	public WRenderTileEntityEvent(TileEntity tileEntity) {
 		this.tileEntity = tileEntity;
 	}
 	
-	public TileEntity getTileEntity()
-	{
+	public TileEntity getTileEntity() {
 		return tileEntity;
 	}
 }

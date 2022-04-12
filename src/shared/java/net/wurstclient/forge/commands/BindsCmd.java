@@ -16,24 +16,22 @@ import net.wurstclient.forge.KeybindList.Keybind;
 import net.wurstclient.forge.utils.ChatUtils;
 import net.wurstclient.forge.utils.MathUtils;
 
-public final class BindsCmd extends Command
-{
-	public BindsCmd()
-	{
-		super("binds", "Manages keybinds.", "Syntax: .binds add <key> <hacks>",
+public final class BindsCmd extends Command {
+	
+	public BindsCmd() {
+		super("binds", "Manages keybinds.", "Syntax: .binds add <key> <features>",
 			".binds add <key> <commands>", ".binds remove <key>",
 			".binds list [<page>]", ".binds remove-all", ".binds reset",
-			"Multiple hacks/commands must be separated by ';'.");
+			"Multiple features/commands must be separated by ';'.");
 	}
 	
 	@Override
-	public void call(String[] args) throws CmdException
-	{
-		if(args.length < 1)
+	public void call(String[] args) throws CmdException {
+		
+		if (args.length < 1)
 			throw new CmdSyntaxError();
 		
-		switch(args[0].toLowerCase())
-		{
+		switch (args[0].toLowerCase()) {
 			case "add":
 			add(args);
 			break;
@@ -61,8 +59,7 @@ public final class BindsCmd extends Command
 		}
 	}
 	
-	private void add(String[] args) throws CmdException
-	{
+	private void add(String[] args) throws CmdException {
 		if(args.length < 3)
 			throw new CmdSyntaxError();
 		
@@ -77,8 +74,7 @@ public final class BindsCmd extends Command
 		ChatUtils.message("Keybind set: " + key + " -> " + commands);
 	}
 	
-	private void remove(String[] args) throws CmdException
-	{
+	private void remove(String[] args) throws CmdException {
 		if(args.length != 2)
 			throw new CmdSyntaxError();
 		
@@ -94,8 +90,7 @@ public final class BindsCmd extends Command
 		ChatUtils.message("Keybind removed: " + key + " -> " + oldCommands);
 	}
 	
-	private void list(String[] args) throws CmdException
-	{
+	private void list(String[] args) throws CmdException {
 		if(args.length > 2)
 			throw new CmdSyntaxError();
 		
@@ -116,8 +111,7 @@ public final class BindsCmd extends Command
 			"Total: " + keybinds + (keybinds == 1 ? " keybind" : " keybinds"));
 		ChatUtils.message("Keybind list (page " + page + "/" + pages + ")");
 		
-		for(int i = (page - 1) * 8; i < Math.min(page * 8, keybinds); i++)
-		{
+		for(int i = (page - 1) * 8; i < Math.min(page * 8, keybinds); i++) {
 			Keybind k = wurst.getKeybinds().get(i);
 			ChatUtils.message(k.getKey() + " -> " + k.getCommands());
 		}

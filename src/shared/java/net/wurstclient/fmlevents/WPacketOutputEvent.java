@@ -12,22 +12,19 @@ import net.minecraftforge.fml.common.eventhandler.Cancelable;
 import net.minecraftforge.fml.common.eventhandler.Event;
 
 @Cancelable
-public final class WPacketOutputEvent extends Event
-{
+public final class WPacketOutputEvent extends Event {
+	
 	private Packet<?> packet;
 	
-	public WPacketOutputEvent(Packet<?> packet)
-	{
+	public WPacketOutputEvent(Packet<?> packet) {
 		this.packet = packet;
 	}
 	
-	public Packet<?> getPacket()
-	{
+	public Packet<?> getPacket() {
 		return packet;
 	}
 	
-	public void setPacket(Packet<?> packet)
-	{
+	public void setPacket(Packet<?> packet) {
 		this.packet = packet;
 	}
 }

@@ -17,57 +17,44 @@ import net.minecraftforge.fml.common.asm.transformers.deobf.FMLDeobfuscatingRema
 import net.wurstclient.forge.compatibility.WMinecraft;
 import net.wurstclient.forge.update.Version;
 
-public abstract class WurstClassVisitor extends ClassVisitor
-{
-	private final ArrayList<MethodVisitorRegistryEntry> methodVisitorRegistry =
-		new ArrayList<>();
+public abstract class WurstClassVisitor extends ClassVisitor {
+	
+	private final ArrayList<MethodVisitorRegistryEntry> methodVisitorRegistry = new ArrayList<>();
 	protected final Version mcVersion = new Version(WMinecraft.VERSION);
 	
-	public WurstClassVisitor(ClassVisitor cv)
-	{
+	public WurstClassVisitor(ClassVisitor cv) {
 		super(Opcodes.ASM4, cv);
 	}
 	
 	@Override
-	public MethodVisitor visitMethod(int access, String name, String desc,
-		String signature, String[] exceptions)
-	{
-		MethodVisitor mv =
-			super.visitMethod(access, name, desc, signature, exceptions);
+	public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
+		MethodVisitor mv = super.visitMethod(access, name, desc, signature, exceptions);
 		
-		for(MethodVisitorRegistryEntry entry : methodVisitorRegistry)
-			if(name.equals(entry.name) && desc.equals(entry.desc))
+		for (MethodVisitorRegistryEntry entry : methodVisitorRegistry)
+			if (name.equals(entry.name) && desc.equals(entry.desc))
 				return entry.factory.createMethodVisitor(mv);
 			
 		return mv;
 	}
 	
-	protected String unmap(String typeName)
-	{
+	protected String unmap(String typeName) {
 		return FMLDeobfuscatingRemapper.INSTANCE.unmap(typeName);
 	}
 	
-	protected void registerMethodVisitor(String name, String desc,
-		MethodVisitorFactory factory)
-	{
-		methodVisitorRegistry
-			.add(new MethodVisitorRegistryEntry(name, desc, factory));
+	protected void registerMethodVisitor(String name, String desc, MethodVisitorFactory factory) {
+		methodVisitorRegistry.add(new MethodVisitorRegistryEntry(name, desc, factory));
 	}
 	
-	public static interface MethodVisitorFactory
-	{
+	public static interface MethodVisitorFactory {
 		public MethodVisitor createMethodVisitor(MethodVisitor mv);
 	}
 	
-	private static final class MethodVisitorRegistryEntry
-	{
+	private static final class MethodVisitorRegistryEntry {
 		private final String name;
 		private final String desc;
 		private final MethodVisitorFactory factory;
 		
-		public MethodVisitorRegistryEntry(String name, String desc,
-			MethodVisitorFactory factory)
-		{
+		public MethodVisitorRegistryEntry(String name, String desc, MethodVisitorFactory factory) {
 			this.name = name;
 			this.desc = desc;
 			this.factory = factory;

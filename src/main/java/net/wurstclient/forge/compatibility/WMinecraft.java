@@ -12,24 +12,21 @@ import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.multiplayer.WorldClient;
 
-public final class WMinecraft
-{
+public final class WMinecraft {
+	
 	public static final String VERSION = "1.12.2";
 	
 	private static final Minecraft mc = Minecraft.getMinecraft();
 	
-	public static EntityPlayerSP getPlayer()
-	{
+	public static EntityPlayerSP getPlayer() {
 		return mc.player;
 	}
 	
-	public static WorldClient getWorld()
-	{
+	public static WorldClient getWorld() {
 		return mc.world;
 	}
 	
-	public static FontRenderer getFontRenderer()
-	{
+	public static FontRenderer getFontRenderer() {
 		return mc.fontRenderer;
 	}
 }

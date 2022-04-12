@@ -12,17 +12,15 @@ import net.minecraftforge.fml.common.eventhandler.Cancelable;
 import net.minecraftforge.fml.common.eventhandler.Event;
 
 @Cancelable
-public final class WRenderBlockModelEvent extends Event
-{
+public final class WRenderBlockModelEvent extends Event {
+	
 	private final IBlockState state;
 	
-	public WRenderBlockModelEvent(IBlockState state)
-	{
+	public WRenderBlockModelEvent(IBlockState state) {
 		this.state = state;
 	}
 	
-	public IBlockState getState()
-	{
+	public IBlockState getState() {
 		return state;
 	}
 }

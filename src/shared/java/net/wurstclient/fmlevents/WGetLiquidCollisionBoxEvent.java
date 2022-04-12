@@ -9,17 +9,15 @@ package net.wurstclient.fmlevents;
 
 import net.minecraftforge.fml.common.eventhandler.Event;
 
-public final class WGetLiquidCollisionBoxEvent extends Event
-{
+public final class WGetLiquidCollisionBoxEvent extends Event {
+	
 	private boolean solidCollisionBox;
 	
-	public boolean isSolidCollisionBox()
-	{
+	public boolean isSolidCollisionBox() {
 		return solidCollisionBox;
 	}
 	
-	public void setSolidCollisionBox()
-	{
+	public void setSolidCollisionBox() {
 		solidCollisionBox = true;
 	}
 }

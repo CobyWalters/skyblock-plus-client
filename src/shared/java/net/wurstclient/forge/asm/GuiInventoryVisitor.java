@@ -11,12 +11,11 @@ import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
-public final class GuiInventoryVisitor extends WurstClassVisitor
-{
+public final class GuiInventoryVisitor extends WurstClassVisitor {
+	
 	private String buttonList_name;
 	
-	public GuiInventoryVisitor(ClassVisitor cv, boolean obf)
-	{
+	public GuiInventoryVisitor(ClassVisitor cv, boolean obf) {
 		super(cv);
 		
 		String guiButton = unmap("net/minecraft/client/gui/GuiButton");
@@ -28,60 +27,50 @@ public final class GuiInventoryVisitor extends WurstClassVisitor
 		
 		buttonList_name = obf ? "field_146292_n" : "buttonList";
 		
-		registerMethodVisitor(initGui_name, initGui_desc,
-			mv -> new InitGuiVisitor(mv));
-		registerMethodVisitor(actionPerformed_name, actionPerformed_desc,
-			mv -> new ActionPerformedVisitor(mv));
+		registerMethodVisitor(initGui_name, initGui_desc, mv -> new InitGuiVisitor(mv));
+		registerMethodVisitor(actionPerformed_name, actionPerformed_desc, mv -> new ActionPerformedVisitor(mv));
 	}
 	
-	private class InitGuiVisitor extends MethodVisitor
-	{
-		public InitGuiVisitor(MethodVisitor mv)
-		{
+	private class InitGuiVisitor extends MethodVisitor {
+		public InitGuiVisitor(MethodVisitor mv) {
 			super(Opcodes.ASM4, mv);
 		}
 		
 		@Override
-		public void visitInsn(int opcode)
-		{
-			if(opcode == Opcodes.RETURN)
-			{
-				System.out
-					.println("GuiInventoryVisitor.InitGuiVisitor.visitInsn()");
+		public void visitInsn(int opcode) {
+			if (opcode == Opcodes.RETURN) {
+				System.out.println("GuiInventoryVisitor.InitGuiVisitor.visitInsn()");
 				
 				mv.visitVarInsn(Opcodes.ALOAD, 0);
-				mv.visitFieldInsn(Opcodes.GETFIELD,
-					"net/minecraft/client/gui/inventory/GuiInventory",
-					buttonList_name, "Ljava/util/List;");
+				mv.visitFieldInsn(Opcodes.GETFIELD, "net/minecraft/client/gui/inventory/GuiInventory", buttonList_name, "Ljava/util/List;");
 				mv.visitMethodInsn(Opcodes.INVOKESTATIC,
-					"net/wurstclient/forge/compatibility/WEventFactory",
-					"onGuiInventoryInit", "(Ljava/util/List;)V", false);
+								   "net/wurstclient/forge/compatibility/WEventFactory",
+								   "onGuiInventoryInit",
+								   "(Ljava/util/List;)V",
+								   false);
 			}
 			
 			super.visitInsn(opcode);
 		}
 	}
 	
-	private static class ActionPerformedVisitor extends MethodVisitor
-	{
-		public ActionPerformedVisitor(MethodVisitor mv)
-		{
+	private static class ActionPerformedVisitor extends MethodVisitor {
+		
+		public ActionPerformedVisitor(MethodVisitor mv) {
 			super(Opcodes.ASM4, mv);
 		}
 		
 		@Override
-		public void visitInsn(int opcode)
-		{
-			if(opcode == Opcodes.RETURN)
-			{
-				System.out.println(
-					"GuiInventoryVisitor.ActionPerformedVisitor.visitInsn()");
+		public void visitInsn(int opcode) {
+			if(opcode == Opcodes.RETURN) {
+				System.out.println("GuiInventoryVisitor.ActionPerformedVisitor.visitInsn()");
 				
 				mv.visitVarInsn(Opcodes.ALOAD, 1);
 				mv.visitMethodInsn(Opcodes.INVOKESTATIC,
-					"net/wurstclient/forge/compatibility/WEventFactory",
-					"onGuiInventoryButtonPress",
-					"(Lnet/minecraft/client/gui/GuiButton;)V", false);
+								   "net/wurstclient/forge/compatibility/WEventFactory",
+								   "onGuiInventoryButtonPress",
+								   "(Lnet/minecraft/client/gui/GuiButton;)V",
+								   false);
 			}
 			
 			super.visitInsn(opcode);

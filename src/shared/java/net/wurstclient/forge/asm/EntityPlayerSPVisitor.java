@@ -11,10 +11,9 @@ import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
-public final class EntityPlayerSPVisitor extends WurstClassVisitor
-{
-	public EntityPlayerSPVisitor(ClassVisitor cv, boolean obf)
-	{
+public final class EntityPlayerSPVisitor extends WurstClassVisitor {
+	
+	public EntityPlayerSPVisitor(ClassVisitor cv, boolean obf) {
 		super(cv);
 		
 		String onUpdateWalkingPlayer_name;
@@ -22,14 +21,12 @@ public final class EntityPlayerSPVisitor extends WurstClassVisitor
 		String moveEntity_name;
 		String moveEntity_desc;
 		
-		if(mcVersion.isLowerThan("1.11"))
-		{
+		if (mcVersion.isLowerThan("1.11")) {
 			onUpdateWalkingPlayer_name = obf ? "A" : "onUpdateWalkingPlayer";
 			moveEntity_name = obf ? "d" : "moveEntity";
 			moveEntity_desc = "(DDD)V";
 			
-		}else
-		{
+		} else {
 			String moverType = unmap("net/minecraft/entity/MoverType");
 			
 			onUpdateWalkingPlayer_name = obf ? "N" : "onUpdateWalkingPlayer";
@@ -37,72 +34,62 @@ public final class EntityPlayerSPVisitor extends WurstClassVisitor
 			moveEntity_desc = "(L" + moverType + ";DDD)V";
 		}
 		
-		registerMethodVisitor(onUpdateWalkingPlayer_name,
-			onUpdateWalkingPlayer_desc,
-			mv -> new OnUpdateWalkingPlayerVisitor(mv));
-		registerMethodVisitor(moveEntity_name, moveEntity_desc,
-			mv -> new MoveEntityVisitor(mv));
+		registerMethodVisitor(onUpdateWalkingPlayer_name, onUpdateWalkingPlayer_desc, mv -> new OnUpdateWalkingPlayerVisitor(mv));
+		registerMethodVisitor(moveEntity_name, moveEntity_desc, mv -> new MoveEntityVisitor(mv));
 	}
 	
-	private static class OnUpdateWalkingPlayerVisitor extends MethodVisitor
-	{
-		public OnUpdateWalkingPlayerVisitor(MethodVisitor mv)
-		{
+	private static class OnUpdateWalkingPlayerVisitor extends MethodVisitor {
+		
+		public OnUpdateWalkingPlayerVisitor(MethodVisitor mv) {
 			super(Opcodes.ASM4, mv);
 		}
 		
 		@Override
-		public void visitCode()
-		{
-			System.out.println(
-				"EntityPlayerSPVisitor.OnUpdateWalkingPlayerVisitor.visitCode()");
+		public void visitCode() {
+			System.out.println("EntityPlayerSPVisitor.OnUpdateWalkingPlayerVisitor.visitCode()");
 			
 			super.visitCode();
 			mv.visitVarInsn(Opcodes.ALOAD, 0);
-			mv.visitMethodInsn(Opcodes.INVOKESTATIC,
-				"net/wurstclient/forge/compatibility/WEventFactory",
-				"onPreMotion",
-				"(Lnet/minecraft/client/entity/EntityPlayerSP;)V", false);
+			mv.visitMethodInsn(Opcodes.INVOKESTATIC, 
+							   "net/wurstclient/forge/compatibility/WEventFactory",
+							   "onPreMotion",
+							   "(Lnet/minecraft/client/entity/EntityPlayerSP;)V",
+							   false);
 		}
 		
 		@Override
-		public void visitInsn(int opcode)
-		{
-			if(opcode == Opcodes.RETURN)
-			{
-				System.out.println(
-					"EntityPlayerSPVisitor.OnUpdateWalkingPlayerVisitor.visitInsn()");
+		public void visitInsn(int opcode) {
+			if (opcode == Opcodes.RETURN) {
+				System.out.println("EntityPlayerSPVisitor.OnUpdateWalkingPlayerVisitor.visitInsn()");
 				
 				mv.visitVarInsn(Opcodes.ALOAD, 0);
 				mv.visitMethodInsn(Opcodes.INVOKESTATIC,
-					"net/wurstclient/forge/compatibility/WEventFactory",
-					"onPostMotion",
-					"(Lnet/minecraft/client/entity/EntityPlayerSP;)V", false);
+								   "net/wurstclient/forge/compatibility/WEventFactory",
+								   "onPostMotion",
+								   "(Lnet/minecraft/client/entity/EntityPlayerSP;)V",
+								   false);
 			}
 			
 			super.visitInsn(opcode);
 		}
 	}
 	
-	private static class MoveEntityVisitor extends MethodVisitor
-	{
-		public MoveEntityVisitor(MethodVisitor mv)
-		{
+	private static class MoveEntityVisitor extends MethodVisitor {
+		public MoveEntityVisitor(MethodVisitor mv) {
 			super(Opcodes.ASM4, mv);
 		}
 		
 		@Override
-		public void visitCode()
-		{
-			System.out
-				.println("EntityPlayerSPVisitor.MoveEntityVisitor.visitCode()");
+		public void visitCode() {
+			System.out.println("EntityPlayerSPVisitor.MoveEntityVisitor.visitCode()");
 			
 			super.visitCode();
 			mv.visitVarInsn(Opcodes.ALOAD, 0);
 			mv.visitMethodInsn(Opcodes.INVOKESTATIC,
-				"net/wurstclient/forge/compatibility/WEventFactory",
-				"onPlayerMove",
-				"(Lnet/minecraft/client/entity/EntityPlayerSP;)V", false);
+							   "net/wurstclient/forge/compatibility/WEventFactory",
+							   "onPlayerMove",
+							   "(Lnet/minecraft/client/entity/EntityPlayerSP;)V",
+							   false);
 		}
 	}
 }

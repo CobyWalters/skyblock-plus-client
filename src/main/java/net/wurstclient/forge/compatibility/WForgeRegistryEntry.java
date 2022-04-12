@@ -9,8 +9,6 @@ package net.wurstclient.forge.compatibility;
 
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
-public class WForgeRegistryEntry<T extends IForgeRegistryEntry<T>>
-	extends IForgeRegistryEntry.Impl<T>
-{
-	
+public class WForgeRegistryEntry<T extends IForgeRegistryEntry<T>> extends IForgeRegistryEntry.Impl<T> {
+
 }

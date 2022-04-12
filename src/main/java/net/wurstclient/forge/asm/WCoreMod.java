@@ -13,35 +13,30 @@ import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 
 @IFMLLoadingPlugin.MCVersion("1.12.2")
 @IFMLLoadingPlugin.TransformerExclusions({"net.wurstclient.forge"})
-public final class WCoreMod implements IFMLLoadingPlugin
-{
+public final class WCoreMod implements IFMLLoadingPlugin {
+	
 	@Override
-	public String[] getASMTransformerClass()
-	{
+	public String[] getASMTransformerClass() {
 		return new String[]{"net.wurstclient.forge.asm.WClassTransformer"};
 	}
 	
 	@Override
-	public String getModContainerClass()
-	{
+	public String getModContainerClass() {
 		return null;
 	}
 	
 	@Override
-	public String getSetupClass()
-	{
+	public String getSetupClass() {
 		return null;
 	}
 	
 	@Override
-	public void injectData(Map<String, Object> data)
-	{
+	public void injectData(Map<String, Object> data) {
 		
 	}
 	
 	@Override
-	public String getAccessTransformerClass()
-	{
+	public String getAccessTransformerClass() {
 		return null;
 	}
 }

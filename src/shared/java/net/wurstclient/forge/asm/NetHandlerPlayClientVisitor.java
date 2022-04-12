@@ -12,10 +12,9 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
-public final class NetHandlerPlayClientVisitor extends WurstClassVisitor
-{
-	public NetHandlerPlayClientVisitor(ClassVisitor cv, boolean obf)
-	{
+public final class NetHandlerPlayClientVisitor extends WurstClassVisitor {
+	
+	public NetHandlerPlayClientVisitor(ClassVisitor cv, boolean obf) {
 		super(cv);
 		
 		String packet = unmap("net/minecraft/network/Packet");
@@ -23,30 +22,26 @@ public final class NetHandlerPlayClientVisitor extends WurstClassVisitor
 		String sendPacket_name = obf ? "a" : "sendPacket";
 		String sendPacket_desc = "(L" + packet + ";)V";
 		
-		registerMethodVisitor(sendPacket_name, sendPacket_desc,
-			mv -> new SendPacketVisitor(mv));
+		registerMethodVisitor(sendPacket_name, sendPacket_desc, mv -> new SendPacketVisitor(mv));
 	}
 	
-	private static class SendPacketVisitor extends MethodVisitor
-	{
-		public SendPacketVisitor(MethodVisitor mv)
-		{
+	private static class SendPacketVisitor extends MethodVisitor {
+		
+		public SendPacketVisitor(MethodVisitor mv) {
 			super(Opcodes.ASM4, mv);
 		}
 		
 		@Override
-		public void visitCode()
-		{
-			System.out.println(
-				"NetHandlerPlayClientVisitor.SendPacketVisitor.visitCode()");
+		public void visitCode() {
+			System.out.println("NetHandlerPlayClientVisitor.SendPacketVisitor.visitCode()");
 			
 			super.visitCode();
 			mv.visitVarInsn(Opcodes.ALOAD, 1);
 			mv.visitMethodInsn(Opcodes.INVOKESTATIC,
-				"net/wurstclient/forge/compatibility/WEventFactory",
-				"onSendPacket",
-				"(Lnet/minecraft/network/Packet;)Lnet/minecraft/network/Packet;",
-				false);
+							   "net/wurstclient/forge/compatibility/WEventFactory",
+							   "onSendPacket",
+							   "(Lnet/minecraft/network/Packet;)Lnet/minecraft/network/Packet;",
+							   false);
 			mv.visitVarInsn(Opcodes.ASTORE, 1);
 			mv.visitVarInsn(Opcodes.ALOAD, 1);
 			Label l2 = new Label();

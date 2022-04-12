@@ -14,29 +14,26 @@ import net.wurstclient.forge.ForgeWurst;
 import net.wurstclient.forge.compatibility.WMinecraft;
 import net.wurstclient.forge.settings.CheckboxSetting;
 
-public final class Checkbox extends Component
-{
+public final class Checkbox extends Component {
+	
 	private final CheckboxSetting setting;
 	
-	public Checkbox(CheckboxSetting setting)
-	{
+	public Checkbox(CheckboxSetting setting) {
 		this.setting = setting;
 		setWidth(getDefaultWidth());
 		setHeight(getDefaultHeight());
 	}
 	
 	@Override
-	public void handleMouseClick(int mouseX, int mouseY, int mouseButton)
-	{
-		if(mouseButton == 0)
+	public void handleMouseClick(int mouseX, int mouseY, int mouseButton) {
+		if (mouseButton == 0)
 			setting.setChecked(!setting.isChecked());
-		else if(mouseButton == 1)
+		else if (mouseButton == 1)
 			setting.setChecked(setting.isCheckedByDefault());
 	}
 	
 	@Override
-	public void render(int mouseX, int mouseY, float partialTicks)
-	{
+	public void render(int mouseX, int mouseY, float partialTicks) {
 		ClickGui gui = ForgeWurst.getForgeWurst().getGui();
 		float[] bgColor = gui.getBgColor();
 		float[] acColor = gui.getAcColor();
@@ -48,11 +45,9 @@ public final class Checkbox extends Component
 		int y1 = getY();
 		int y2 = y1 + getHeight();
 		
-		int scroll = getParent().isScrollingEnabled()
-			? getParent().getScrollOffset() : 0;
-		boolean hovering = mouseX >= x1 && mouseY >= y1 && mouseX < x2
-			&& mouseY < y2 && mouseY >= -scroll
-			&& mouseY < getParent().getHeight() - 13 - scroll;
+		int scroll = getParent().isScrollingEnabled() ? getParent().getScrollOffset() : 0;
+		boolean hovering = mouseX >= x1 && mouseY >= y1 && mouseX < x2 && mouseY < y2 &&
+						   mouseY >= -scroll && mouseY < getParent().getHeight() - 13 - scroll;
 		
 		// tooltip
 		if(hovering && mouseX >= x3)
@@ -84,8 +79,7 @@ public final class Checkbox extends Component
 		GL11.glVertex2i(x3, y1);
 		GL11.glEnd();
 		
-		if(setting.isChecked())
-		{
+		if (setting.isChecked()) {
 			double xc1 = x1 + 2.5;
 			double xc2 = x1 + 3.5;
 			double xc3 = x1 + 4.5;
@@ -131,15 +125,12 @@ public final class Checkbox extends Component
 	}
 	
 	@Override
-	public int getDefaultWidth()
-	{
-		return WMinecraft.getFontRenderer().getStringWidth(setting.getName())
-			+ 13;
+	public int getDefaultWidth() {
+		return WMinecraft.getFontRenderer().getStringWidth(setting.getName()) + 13;
 	}
 	
 	@Override
-	public int getDefaultHeight()
-	{
+	public int getDefaultHeight() {
 		return 11;
 	}
 }

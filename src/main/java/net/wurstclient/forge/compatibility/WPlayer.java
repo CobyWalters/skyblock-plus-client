@@ -10,10 +10,8 @@ package net.wurstclient.forge.compatibility;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
-public final class WPlayer
-{
-	public static World getWorld(EntityPlayer player)
-	{
+public final class WPlayer {
+	public static World getWorld(EntityPlayer player) {
 		return player.world;
 	}
 }

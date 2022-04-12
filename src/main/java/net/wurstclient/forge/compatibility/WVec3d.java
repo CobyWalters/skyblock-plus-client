@@ -9,20 +9,17 @@ package net.wurstclient.forge.compatibility;
 
 import net.minecraft.util.math.Vec3d;
 
-public final class WVec3d
-{
-	public static double getX(Vec3d vec)
-	{
+public final class WVec3d {
+	
+	public static double getX(Vec3d vec) {
 		return vec.x;
 	}
 	
-	public static double getY(Vec3d vec)
-	{
+	public static double getY(Vec3d vec) {
 		return vec.y;
 	}
 	
-	public static double getZ(Vec3d vec)
-	{
+	public static double getZ(Vec3d vec) {
 		return vec.z;
 	}
 }

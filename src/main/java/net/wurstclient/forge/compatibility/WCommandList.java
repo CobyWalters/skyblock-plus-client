@@ -15,13 +15,11 @@ import net.minecraftforge.registries.RegistryBuilder;
 import net.wurstclient.forge.Command;
 import net.wurstclient.forge.ForgeWurst;
 
-public abstract class WCommandList
-{
-	private static IForgeRegistry<Command> registry;
-	{
-		if(registry != null)
-			throw new IllegalStateException(
-				"Multiple instances of CommandList!");
+public abstract class WCommandList {
+	
+	private static IForgeRegistry<Command> registry; {
+		if (registry != null)
+			throw new IllegalStateException("Multiple instances of CommandList!");
 		
 		RegistryBuilder<Command> registryBuilder = new RegistryBuilder<>();
 		registryBuilder.setName(new ResourceLocation(ForgeWurst.MODID, "cmds"));
@@ -30,35 +28,27 @@ public abstract class WCommandList
 		registry = registryBuilder.create();
 	}
 	
-	protected final <T extends Command> T register(T cmd)
-	{
+	protected final <T extends Command> T register(T cmd) {
 		cmd.setRegistryName(ForgeWurst.MODID, cmd.getName().toLowerCase());
 		registry.register(cmd);
 		return cmd;
 	}
 	
-	public final IForgeRegistry<Command> getRegistry()
-	{
+	public final IForgeRegistry<Command> getRegistry() {
 		return registry;
 	}
 	
 	@SuppressWarnings("deprecation")
-	public final Collection<Command> getValues()
-	{
-		try
-		{
+	public final Collection<Command> getValues() {
+		try {
 			return registry.getValuesCollection();
-			
-		}catch(NoSuchMethodError e)
-		{
+		} catch (NoSuchMethodError e) {
 			return registry.getValues();
 		}
 	}
 	
-	public final Command get(String name)
-	{
-		ResourceLocation location =
-			new ResourceLocation(ForgeWurst.MODID, name.toLowerCase());
+	public final Command get(String name) {
+		ResourceLocation location = new ResourceLocation(ForgeWurst.MODID, name.toLowerCase());
 		return registry.getValue(location);
 	}
 }

@@ -9,15 +9,13 @@ package net.wurstclient.forge.compatibility;
 
 import net.minecraft.world.chunk.Chunk;
 
-public final class WChunk
-{
-	public static int getX(Chunk chunk)
-	{
+public final class WChunk {
+	
+	public static int getX(Chunk chunk) {
 		return chunk.x;
 	}
 	
-	public static int getZ(Chunk chunk)
-	{
+	public static int getZ(Chunk chunk) {
 		return chunk.z;
 	}
 }

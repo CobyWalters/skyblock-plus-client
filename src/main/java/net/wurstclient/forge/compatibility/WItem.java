@@ -13,30 +13,25 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemAir;
 import net.minecraft.item.ItemStack;
 
-public final class WItem
-{
-	public static boolean isNullOrEmpty(Item item)
-	{
+public final class WItem {
+	
+	public static boolean isNullOrEmpty(Item item) {
 		return item == null || item instanceof ItemAir;
 	}
 	
-	public static boolean isNullOrEmpty(ItemStack stack)
-	{
+	public static boolean isNullOrEmpty(ItemStack stack) {
 		return stack == null || stack.isEmpty();
 	}
 	
-	public static ItemStack getItemStack(EntityItem entityItem)
-	{
+	public static ItemStack getItemStack(EntityItem entityItem) {
 		return entityItem.getItem();
 	}
 	
-	public static int getStackSize(ItemStack stack)
-	{
+	public static int getStackSize(ItemStack stack) {
 		return stack.getCount();
 	}
 	
-	public static float getDestroySpeed(ItemStack stack, IBlockState state)
-	{
+	public static float getDestroySpeed(ItemStack stack, IBlockState state) {
 		return isNullOrEmpty(stack) ? 1 : stack.getDestroySpeed(state);
 	}
 }

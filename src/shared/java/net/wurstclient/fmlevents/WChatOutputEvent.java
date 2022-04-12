@@ -13,29 +13,25 @@ import net.minecraftforge.fml.common.eventhandler.Cancelable;
 import net.minecraftforge.fml.common.eventhandler.Event;
 
 @Cancelable
-public final class WChatOutputEvent extends Event
-{
+public final class WChatOutputEvent extends Event {
+	
 	private String message;
 	private final String originalMessage;
 	
-	public WChatOutputEvent(String message)
-	{
+	public WChatOutputEvent(String message) {
 		setMessage(message);
 		originalMessage = Strings.nullToEmpty(message);
 	}
 	
-	public String getMessage()
-	{
+	public String getMessage() {
 		return message;
 	}
 	
-	public void setMessage(String message)
-	{
+	public void setMessage(String message) {
 		this.message = Strings.nullToEmpty(message);
 	}
 	
-	public String getOriginalMessage()
-	{
+	public String getOriginalMessage() {
 		return originalMessage;
 	}
 }

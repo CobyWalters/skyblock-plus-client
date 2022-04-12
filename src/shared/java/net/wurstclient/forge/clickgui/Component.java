@@ -7,8 +7,8 @@
  */
 package net.wurstclient.forge.clickgui;
 
-public abstract class Component
-{
+public abstract class Component {
+	
 	private int x;
 	private int y;
 	private int width;
@@ -16,8 +16,7 @@ public abstract class Component
 	
 	private Window parent;
 	
-	public void handleMouseClick(int mouseX, int mouseY, int mouseButton)
-	{
+	public void handleMouseClick(int mouseX, int mouseY, int mouseButton) {
 		
 	}
 	
@@ -27,67 +26,56 @@ public abstract class Component
 	
 	public abstract int getDefaultHeight();
 	
-	public int getX()
-	{
+	public int getX() {
 		return x;
 	}
 	
-	public void setX(int x)
-	{
-		if(this.x != x)
+	public void setX(int x) {
+		if (this.x != x)
 			invalidateParent();
 		this.x = x;
 	}
 	
-	public int getY()
-	{
+	public int getY() {
 		return y;
 	}
 	
-	public void setY(int y)
-	{
-		if(this.y != y)
+	public void setY(int y) {
+		if (this.y != y)
 			invalidateParent();
 		this.y = y;
 	}
 	
-	public int getWidth()
-	{
+	public int getWidth() {
 		return width;
 	}
 	
-	public void setWidth(int width)
-	{
-		if(this.width != width)
+	public void setWidth(int width) {
+		if (this.width != width)
 			invalidateParent();
 		this.width = width;
 	}
 	
-	public int getHeight()
-	{
+	public int getHeight() {
 		return height;
 	}
 	
-	public void setHeight(int height)
-	{
-		if(this.height != height)
+	public void setHeight(int height) {
+		if (this.height != height)
 			invalidateParent();
 		this.height = height;
 	}
 	
-	public Window getParent()
-	{
+	public Window getParent() {
 		return parent;
 	}
 	
-	public void setParent(Window parent)
-	{
+	public void setParent(Window parent) {
 		this.parent = parent;
 	}
 	
-	private void invalidateParent()
-	{
-		if(parent != null)
+	private void invalidateParent() {
+		if (parent != null)
 			parent.invalidate();
 	}
 }

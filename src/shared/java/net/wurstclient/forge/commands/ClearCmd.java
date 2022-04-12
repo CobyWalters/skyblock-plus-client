@@ -10,17 +10,15 @@ package net.wurstclient.forge.commands;
 import net.wurstclient.forge.Command;
 import net.wurstclient.forge.compatibility.WChat;
 
-public final class ClearCmd extends Command
-{
-	public ClearCmd()
-	{
+public final class ClearCmd extends Command {
+	
+	public ClearCmd() {
 		super("clear", "Clears the chat completely.", "Syntax: .clear");
 	}
 	
 	@Override
-	public void call(String[] args) throws CmdException
-	{
-		if(args.length > 0)
+	public void call(String[] args) throws CmdException {
+		if (args.length > 0)
 			throw new CmdSyntaxError();
 		
 		WChat.clearMessages();

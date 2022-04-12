@@ -10,10 +10,9 @@ package net.wurstclient.forge.compatibility;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemStack;
 
-public final class WEnchantments
-{
-	public static boolean hasVanishingCurse(ItemStack stack)
-	{
+public final class WEnchantments {
+	
+	public static boolean hasVanishingCurse(ItemStack stack) {
 		return EnchantmentHelper.hasVanishingCurse(stack);
 	}
 }

@@ -19,66 +19,62 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.wurstclient.forge.clickgui.ClickGui;
 import net.wurstclient.forge.clickgui.ClickGuiScreen;
 import net.wurstclient.forge.compatibility.WMinecraft;
+import net.wurstclient.forge.settings.CheckboxSetting;
 
-public final class IngameHUD
-{
+public final class IngameHUD {
+	
 	private final Minecraft mc = Minecraft.getMinecraft();
-	private final HackList hackList;
+	private final FeatureList featureList;
 	private final ClickGui clickGui;
 	
-	public IngameHUD(HackList hackList, ClickGui clickGui)
-	{
-		this.hackList = hackList;
+	public IngameHUD(FeatureList featureList, ClickGui clickGui) {
+		this.featureList = featureList;
 		this.clickGui = clickGui;
 	}
 	
 	@SubscribeEvent
-	public void onRenderGUI(RenderGameOverlayEvent.Post event)
-	{
-		if(event.getType() != ElementType.ALL || mc.gameSettings.showDebugInfo)
+	public void onRenderGUI(RenderGameOverlayEvent.Post event) {
+		if (event.getType() != ElementType.ALL || mc.gameSettings.showDebugInfo)
 			return;
 		
 		boolean blend = GL11.glGetBoolean(GL11.GL_BLEND);
 		
-		// color
-		clickGui.updateColors();
-		int textColor;
-		if(hackList.rainbowUiHack.isEnabled())
-		{
-			float[] acColor = clickGui.getAcColor();
-			textColor = (int)(acColor[0] * 256) << 16
-				| (int)(acColor[1] * 256) << 8 | (int)(acColor[2] * 256);
-		}else
-			textColor = 0xffffff;
+		CheckboxSetting disableOverlaySetting = (CheckboxSetting) ForgeWurst.getForgeWurst().getFeatures().clickGui.getSettings().get("disable overlay");
 		
-		// title
-		GL11.glPushMatrix();
-		GL11.glScaled(1.33333333, 1.33333333, 1);
-		WMinecraft.getFontRenderer().drawStringWithShadow(
-			"ForgeWurst v" + ForgeWurst.VERSION, 3, 3, textColor);
-		GL11.glPopMatrix();
-		
-		// hack list
-		int y = 19;
-		ArrayList<Hack> hacks = new ArrayList<>();
-		hacks.addAll(hackList.getValues());
-		hacks.sort(Comparator.comparing(Hack::getName));
-		
-		for(Hack hack : hacks)
-		{
-			if(!hack.isEnabled())
-				continue;
+		if (!disableOverlaySetting.isChecked()) {
+			// color
+			clickGui.updateColors();
+			int textColor1 = 0xffffff;
+			int textColor2 = 0xaaaaaa;
 			
-			WMinecraft.getFontRenderer()
-				.drawStringWithShadow(hack.getRenderName(), 2, y, textColor);
-			y += 9;
+			// title
+			GL11.glPushMatrix();
+			GL11.glScaled(1.33333333, 1.33333333, 1);
+			WMinecraft.getFontRenderer().drawStringWithShadow("Skyblock+ v" + ForgeWurst.VERSION, 3, 3, textColor1);
+			GL11.glPopMatrix();
+			
+			// feature list
+			int y = 19;
+			ArrayList<Feature> features = new ArrayList<>();
+			features.addAll(featureList.getValues());
+			features.sort(Comparator.comparing(Feature::getName));
+			
+			for (Feature feature : features) {
+				if (!feature.isEnabled())
+					continue;
+				if (feature.isSupressed())
+					WMinecraft.getFontRenderer().drawStringWithShadow(feature.getRenderName(), 2, y, textColor2);
+				else
+					WMinecraft.getFontRenderer().drawStringWithShadow(feature.getRenderName(), 2, y, textColor1);
+				y += 9;
+			}
 		}
-		
+
 		// pinned windows
-		if(!(mc.currentScreen instanceof ClickGuiScreen))
+		if (!(mc.currentScreen instanceof ClickGuiScreen))
 			clickGui.renderPinnedWindows(event.getPartialTicks());
 		
-		if(blend)
+		if (blend)
 			GL11.glEnable(GL11.GL_BLEND);
 		else
 			GL11.glDisable(GL11.GL_BLEND);

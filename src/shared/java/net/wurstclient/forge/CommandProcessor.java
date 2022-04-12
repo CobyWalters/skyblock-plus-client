@@ -15,53 +15,42 @@ import net.wurstclient.fmlevents.WChatOutputEvent;
 import net.wurstclient.forge.Command.CmdException;
 import net.wurstclient.forge.utils.ChatUtils;
 
-public final class CommandProcessor
-{
+public final class CommandProcessor {
+	
 	private final CommandList cmds;
 	
-	public CommandProcessor(CommandList cmds)
-	{
+	public CommandProcessor(CommandList cmds) {
 		this.cmds = cmds;
 	}
 	
 	@SubscribeEvent
-	public void onSentMessage(WChatOutputEvent event)
-	{
+	public void onSentMessage(WChatOutputEvent event) {
 		String message = event.getMessage().trim();
-		if(!message.startsWith("."))
+		if (!message.startsWith("."))
 			return;
 		
 		event.setCanceled(true);
-		Minecraft.getMinecraft().ingameGUI.getChatGUI()
-			.addToSentMessages(message);
+		Minecraft.getMinecraft().ingameGUI.getChatGUI().addToSentMessages(message);
 		
 		runCommand(message.substring(1));
 	}
 	
-	public void runCommand(String input)
-	{
+	public void runCommand(String input) {
 		String[] parts = input.split(" ");
 		Command cmd = cmds.get(parts[0]);
 		
-		if(cmd == null)
-		{
+		if (cmd == null) {
 			ChatUtils.error("Unknown command: ." + parts[0]);
-			if(input.startsWith("/"))
-				ChatUtils.message(
-					"Use \".say " + input + "\" to send it as a chat command.");
+			if (input.startsWith("/"))
+				ChatUtils.message("Use \".say " + input + "\" to send it as a chat command.");
 			else
-				ChatUtils
-					.message("Type \".help\" for a list of commands or \".say ."
-						+ input + "\" to send it as a chat message.");
+				ChatUtils.message("Type \".help\" for a list of commands or \".say ." + input + "\" to send it as a chat message.");
 			return;
 		}
 		
-		try
-		{
-			cmd.call(Arrays.copyOfRange(parts, 1, parts.length));
-			
-		}catch(CmdException e)
-		{
+		try {
+			cmd.call(Arrays.copyOfRange(parts, 1, parts.length));	
+		} catch (CmdException e) {
 			e.printToChat();
 		}
 	}

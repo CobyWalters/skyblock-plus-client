@@ -13,10 +13,10 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;
 import net.wurstclient.forge.compatibility.WVec3d;
 
-public final class RenderUtils
-{
-	public static void drawSolidBox(AxisAlignedBB bb)
-	{
+public final class RenderUtils {
+	
+	public static void drawSolidBox(AxisAlignedBB bb) {
+		
 		GL11.glVertex3d(bb.minX, bb.minY, bb.minZ);
 		GL11.glVertex3d(bb.maxX, bb.minY, bb.minZ);
 		GL11.glVertex3d(bb.maxX, bb.minY, bb.maxZ);
@@ -48,8 +48,7 @@ public final class RenderUtils
 		GL11.glVertex3d(bb.minX, bb.maxY, bb.minZ);
 	}
 	
-	public static void drawOutlinedBox(AxisAlignedBB bb)
-	{
+	public static void drawOutlinedBox(AxisAlignedBB bb) {
 		GL11.glVertex3d(bb.minX, bb.minY, bb.minZ);
 		GL11.glVertex3d(bb.maxX, bb.minY, bb.minZ);
 		
@@ -87,8 +86,7 @@ public final class RenderUtils
 		GL11.glVertex3d(bb.minX, bb.maxY, bb.minZ);
 	}
 	
-	public static void drawNode(AxisAlignedBB bb)
-	{
+	public static void drawNode(AxisAlignedBB bb) {
 		double midX = (bb.minX + bb.maxX) / 2;
 		double midY = (bb.minY + bb.maxY) / 2;
 		double midZ = (bb.minZ + bb.maxZ) / 2;
@@ -130,8 +128,7 @@ public final class RenderUtils
 		GL11.glVertex3d(midX, midY, bb.maxZ);
 	}
 	
-	public static void drawArrow(Vec3d from, Vec3d to)
-	{
+	public static void drawArrow(Vec3d from, Vec3d to) {
 		double startX = WVec3d.getX(from);
 		double startY = WVec3d.getY(from);
 		double startZ = WVec3d.getZ(from);

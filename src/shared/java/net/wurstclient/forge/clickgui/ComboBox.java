@@ -16,34 +16,30 @@ import net.wurstclient.forge.ForgeWurst;
 import net.wurstclient.forge.compatibility.WMinecraft;
 import net.wurstclient.forge.settings.EnumSetting;
 
-public final class ComboBox extends Component
-{
+public final class ComboBox extends Component {
+	
 	private final EnumSetting<?> setting;
 	private final int popupWidth;
 	private ComboBoxPopup popup;
 	
-	public ComboBox(EnumSetting<?> setting)
-	{
+	public ComboBox(EnumSetting<?> setting) {
 		this.setting = setting;
 		
 		FontRenderer fr = WMinecraft.getFontRenderer();
-		popupWidth = Arrays.stream(setting.getValues())
-			.mapToInt(v -> fr.getStringWidth(v.toString())).max().getAsInt();
+		popupWidth = Arrays.stream(setting.getValues()).mapToInt(v -> fr.getStringWidth(v.toString())).max().getAsInt();
 		
 		setWidth(getDefaultWidth());
 		setHeight(getDefaultHeight());
 	}
 	
 	@Override
-	public void handleMouseClick(int mouseX, int mouseY, int mouseButton)
-	{
-		if(mouseX < getX() + getWidth() - popupWidth - 15)
+	public void handleMouseClick(int mouseX, int mouseY, int mouseButton) {
+		
+		if (mouseX < getX() + getWidth() - popupWidth - 15)
 			return;
 		
-		if(mouseButton == 0)
-		{
-			if(popup != null && !popup.isClosing())
-			{
+		if (mouseButton == 0) {
+			if (popup != null && !popup.isClosing()) {
 				popup.close();
 				popup = null;
 				return;
@@ -53,13 +49,12 @@ public final class ComboBox extends Component
 			ClickGui gui = ForgeWurst.getForgeWurst().getGui();
 			gui.addPopup(popup);
 			
-		}else if(mouseButton == 1 && (popup == null || popup.isClosing()))
+		} else if (mouseButton == 1 && (popup == null || popup.isClosing()))
 			setting.setSelected(setting.getDefaultSelected().toString());
 	}
 	
 	@Override
-	public void render(int mouseX, int mouseY, float partialTicks)
-	{
+	public void render(int mouseX, int mouseY, float partialTicks) {
 		ClickGui gui = ForgeWurst.getForgeWurst().getGui();
 		float[] bgColor = gui.getBgColor();
 		float[] acColor = gui.getAcColor();
@@ -72,11 +67,9 @@ public final class ComboBox extends Component
 		int y1 = getY();
 		int y2 = y1 + getHeight();
 		
-		int scroll = getParent().isScrollingEnabled()
-			? getParent().getScrollOffset() : 0;
-		boolean hovering = mouseX >= x1 && mouseY >= y1 && mouseX < x2
-			&& mouseY < y2 && mouseY >= -scroll
-			&& mouseY < getParent().getHeight() - 13 - scroll;
+		int scroll = getParent().isScrollingEnabled() ? getParent().getScrollOffset() : 0;
+		boolean hovering = mouseX >= x1 && mouseY >= y1 && mouseX < x2 && mouseY < y2 &&
+						   mouseY >= -scroll && mouseY < getParent().getHeight() - 13 - scroll;
 		boolean hText = hovering && mouseX < x4;
 		boolean hBox = hovering && mouseX >= x4;
 		
@@ -94,8 +87,7 @@ public final class ComboBox extends Component
 		GL11.glEnd();
 		
 		// box
-		GL11.glColor4f(bgColor[0], bgColor[1], bgColor[2],
-			hBox ? opacity * 1.5F : opacity);
+		GL11.glColor4f(bgColor[0], bgColor[1], bgColor[2], hBox ? opacity * 1.5F : opacity);
 		GL11.glBegin(GL11.GL_QUADS);
 		GL11.glVertex2i(x4, y1);
 		GL11.glVertex2i(x4, y2);
@@ -122,13 +114,11 @@ public final class ComboBox extends Component
 		double ya1;
 		double ya2;
 		
-		if(popup != null && !popup.isClosing())
-		{
+		if (popup != null && !popup.isClosing()) {
 			ya1 = y2 - 3.5;
 			ya2 = y1 + 3;
 			GL11.glColor4f(hBox ? 1 : 0.85F, 0, 0, 1);
-		}else
-		{
+		} else {
 			ya1 = y1 + 3.5;
 			ya2 = y2 - 3;
 			GL11.glColor4f(0, hBox ? 1 : 0.85F, 0, 1);
@@ -154,28 +144,22 @@ public final class ComboBox extends Component
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		FontRenderer fr = WMinecraft.getFontRenderer();
 		fr.drawString(setting.getName(), x1, y1 + 2, 0xf0f0f0);
-		fr.drawString(setting.getSelected().toString(), x4 + 2, y1 + 2,
-			0xf0f0f0);
+		fr.drawString(setting.getSelected().toString(), x4 + 2, y1 + 2, 0xf0f0f0);
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 	}
 	
 	@Override
-	public int getDefaultWidth()
-	{
-		return WMinecraft.getFontRenderer().getStringWidth(setting.getName())
-			+ popupWidth + 17;
+	public int getDefaultWidth() {
+		return WMinecraft.getFontRenderer().getStringWidth(setting.getName()) + popupWidth + 17;
 	}
 	
 	@Override
-	public int getDefaultHeight()
-	{
+	public int getDefaultHeight() {
 		return 11;
 	}
 	
-	private static class ComboBoxPopup extends Popup
-	{
-		public ComboBoxPopup(ComboBox owner)
-		{
+	private static class ComboBoxPopup extends Popup {
+		public ComboBoxPopup(ComboBox owner) {
 			super(owner);
 			setWidth(getDefaultWidth());
 			setHeight(getDefaultHeight());
@@ -184,32 +168,29 @@ public final class ComboBox extends Component
 		}
 		
 		@Override
-		public void handleMouseClick(int mouseX, int mouseY, int mouseButton)
-		{
-			if(mouseButton != 0)
+		public void handleMouseClick(int mouseX, int mouseY, int mouseButton) {
+			if (mouseButton != 0)
 				return;
 			
 			Enum<?>[] values = ((ComboBox)getOwner()).setting.getValues();
 			int yi1 = getY() - 11;
-			for(Enum<?> value : values)
-			{
-				if(value == ((ComboBox)getOwner()).setting.getSelected())
+			for (Enum<?> value : values) {
+				if (value == ((ComboBox)getOwner()).setting.getSelected())
 					continue;
 				
 				yi1 += 11;
 				int yi2 = yi1 + 11;
-				if(mouseY < yi1 || mouseY >= yi2)
+				if (mouseY < yi1 || mouseY >= yi2)
 					continue;
 				
-				((ComboBox)getOwner()).setting.setSelected(value.toString());
+				((ComboBox) getOwner()).setting.setSelected(value.toString());
 				close();
 				break;
 			}
 		}
 		
 		@Override
-		public void render(int mouseX, int mouseY)
-		{
+		public void render(int mouseX, int mouseY) {
 			ClickGui gui = ForgeWurst.getForgeWurst().getGui();
 			float[] bgColor = gui.getBgColor();
 			float[] acColor = gui.getAcColor();
@@ -220,9 +201,8 @@ public final class ComboBox extends Component
 			int y1 = getY();
 			int y2 = y1 + getHeight();
 			
-			boolean hovering =
-				mouseX >= x1 && mouseY >= y1 && mouseX < x2 && mouseY < y2;
-			if(hovering)
+			boolean hovering = mouseX >= x1 && mouseY >= y1 && mouseX < x2 && mouseY < y2;
+			if (hovering)
 				gui.setTooltip(null);
 			
 			// outline
@@ -236,9 +216,8 @@ public final class ComboBox extends Component
 			
 			Enum<?>[] values = ((ComboBox)getOwner()).setting.getValues();
 			int yi1 = y1 - 11;
-			for(Enum<?> value : values)
-			{
-				if(value == ((ComboBox)getOwner()).setting.getSelected())
+			for (Enum<?> value : values) {
+				if (value == ((ComboBox)getOwner()).setting.getSelected())
 					continue;
 				
 				yi1 += 11;
@@ -246,8 +225,7 @@ public final class ComboBox extends Component
 				boolean hValue = hovering && mouseY >= yi1 && mouseY < yi2;
 				
 				// background
-				GL11.glColor4f(bgColor[0], bgColor[1], bgColor[2],
-					hValue ? opacity * 1.5F : opacity);
+				GL11.glColor4f(bgColor[0], bgColor[1], bgColor[2], hValue ? opacity * 1.5F : opacity);
 				GL11.glBegin(GL11.GL_QUADS);
 				GL11.glVertex2i(x1, yi1);
 				GL11.glVertex2i(x1, yi2);
@@ -265,15 +243,13 @@ public final class ComboBox extends Component
 		}
 		
 		@Override
-		public int getDefaultWidth()
-		{
-			return ((ComboBox)getOwner()).popupWidth + 15;
+		public int getDefaultWidth() {
+			return ((ComboBox) getOwner()).popupWidth + 15;
 		}
 		
 		@Override
-		public int getDefaultHeight()
-		{
-			return (((ComboBox)getOwner()).setting.getValues().length - 1) * 11;
+		public int getDefaultHeight() {
+			return (((ComboBox) getOwner()).setting.getValues().length - 1) * 11;
 		}
 	}
 }

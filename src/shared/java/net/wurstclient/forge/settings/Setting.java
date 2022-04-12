@@ -13,24 +13,21 @@ import com.google.gson.JsonElement;
 
 import net.wurstclient.forge.clickgui.Component;
 
-public abstract class Setting
-{
+public abstract class Setting {
+	
 	private final String name;
 	private final String description;
 	
-	public Setting(String name, String description)
-	{
+	public Setting(String name, String description) {
 		this.name = Objects.requireNonNull(name);
 		this.description = description;
 	}
 	
-	public final String getName()
-	{
+	public final String getName() {
 		return name;
 	}
 	
-	public String getDescription()
-	{
+	public String getDescription() {
 		return description;
 	}
 	

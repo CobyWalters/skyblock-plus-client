@@ -11,8 +11,8 @@ import net.minecraft.client.Minecraft;
 import net.wurstclient.forge.compatibility.WForgeRegistryEntry;
 import net.wurstclient.forge.utils.ChatUtils;
 
-public abstract class Command extends WForgeRegistryEntry<Command>
-{
+public abstract class Command extends WForgeRegistryEntry<Command> {
+	
 	protected static final ForgeWurst wurst = ForgeWurst.getForgeWurst();
 	protected static final Minecraft mc = Minecraft.getMinecraft();
 	
@@ -20,8 +20,7 @@ public abstract class Command extends WForgeRegistryEntry<Command>
 	private final String description;
 	private final String[] syntax;
 	
-	public Command(String name, String description, String... syntax)
-	{
+	public Command(String name, String description, String... syntax) {
 		this.name = name;
 		this.description = description;
 		this.syntax = syntax;
@@ -29,70 +28,59 @@ public abstract class Command extends WForgeRegistryEntry<Command>
 	
 	public abstract void call(String[] args) throws CmdException;
 	
-	public final String getName()
-	{
+	public final String getName() {
 		return name;
 	}
 	
-	public final String getDescription()
-	{
+	public final String getDescription() {
 		return description;
 	}
 	
-	public final String[] getSyntax()
-	{
+	public final String[] getSyntax() {
 		return syntax;
 	}
 	
-	public abstract class CmdException extends Exception
-	{
-		public CmdException()
-		{
+	@SuppressWarnings("serial")
+	public abstract class CmdException extends Exception {
+		public CmdException() {
 			super();
 		}
 		
-		public CmdException(String message)
-		{
+		public CmdException(String message) {
 			super(message);
 		}
 		
 		public abstract void printToChat();
 	}
 	
-	public final class CmdError extends CmdException
-	{
-		public CmdError(String message)
-		{
+	@SuppressWarnings("serial")
+	public final class CmdError extends CmdException {
+		public CmdError(String message) {
 			super(message);
 		}
 		
 		@Override
-		public void printToChat()
-		{
+		public void printToChat() {
 			ChatUtils.error(getMessage());
 		}
 	}
 	
-	public final class CmdSyntaxError extends CmdException
-	{
-		public CmdSyntaxError()
-		{
+	@SuppressWarnings("serial")
+	public final class CmdSyntaxError extends CmdException {
+		public CmdSyntaxError() {
 			super();
 		}
 		
-		public CmdSyntaxError(String message)
-		{
+		public CmdSyntaxError(String message) {
 			super(message);
 		}
 		
 		@Override
-		public void printToChat()
-		{
-			if(getMessage() != null)
-				ChatUtils
-					.message("\u00a74Syntax error:\u00a7r " + getMessage());
+		public void printToChat() {
+			if (getMessage() != null)
+				ChatUtils.message("\u00a74Syntax error:\u00a7r " + getMessage());
 			
-			for(String line : syntax)
+			for (String line : syntax)
 				ChatUtils.message(line);
 		}
 	}

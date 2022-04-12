@@ -12,17 +12,15 @@ import net.minecraftforge.fml.common.eventhandler.Cancelable;
 import net.minecraftforge.fml.common.eventhandler.Event;
 
 @Cancelable
-public final class WEntityPlayerJumpEvent extends Event
-{
+public final class WEntityPlayerJumpEvent extends Event {
+	
 	private final EntityPlayer player;
 	
-	public WEntityPlayerJumpEvent(EntityPlayer player)
-	{
+	public WEntityPlayerJumpEvent(EntityPlayer player) {
 		this.player = player;
 	}
 	
-	public EntityPlayer getPlayer()
-	{
+	public EntityPlayer getPlayer() {
 		return player;
 	}
 }

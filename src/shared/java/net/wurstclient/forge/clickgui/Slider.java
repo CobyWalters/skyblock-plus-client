@@ -17,29 +17,25 @@ import net.wurstclient.forge.ForgeWurst;
 import net.wurstclient.forge.compatibility.WMinecraft;
 import net.wurstclient.forge.settings.SliderSetting;
 
-public final class Slider extends Component
-{
+public final class Slider extends Component {
+	
 	private final SliderSetting setting;
 	private boolean dragging;
 	
-	public Slider(SliderSetting setting)
-	{
+	public Slider(SliderSetting setting) {
 		this.setting = setting;
 		setWidth(getDefaultWidth());
 		setHeight(getDefaultHeight());
 	}
 	
 	@Override
-	public void handleMouseClick(int mouseX, int mouseY, int mouseButton)
-	{
-		if(mouseY < getY() + 11)
+	public void handleMouseClick(int mouseX, int mouseY, int mouseButton) {
+		if (mouseY < getY() + 11)
 			return;
 		
-		if(mouseButton == 0)
-			if(Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)
-				|| Keyboard.isKeyDown(Keyboard.KEY_RCONTROL))
-				Minecraft.getMinecraft().displayGuiScreen(new EditSliderScreen(
-					Minecraft.getMinecraft().currentScreen, setting));
+		if (mouseButton == 0)
+			if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL))
+				Minecraft.getMinecraft().displayGuiScreen(new EditSliderScreen(Minecraft.getMinecraft().currentScreen, setting));
 			else
 				dragging = true;
 		else if(mouseButton == 1)
@@ -47,19 +43,15 @@ public final class Slider extends Component
 	}
 	
 	@Override
-	public void render(int mouseX, int mouseY, float partialTicks)
-	{
+	public void render(int mouseX, int mouseY, float partialTicks) {
 		// dragging
-		if(dragging)
-			if(Mouse.isButtonDown(0))
-			{
-				double mousePercentage =
-					(mouseX - (getX() + 2)) / (double)(getWidth() - 4);
-				double value = setting.getMin()
-					+ (setting.getMax() - setting.getMin()) * mousePercentage;
+		if (dragging)
+			if (Mouse.isButtonDown(0)) {
+				double mousePercentage = (mouseX - (getX() + 2)) / (double)(getWidth() - 4);
+				double value = setting.getMin() + (setting.getMax() - setting.getMin()) * mousePercentage;
 				setting.setValue(value);
 				
-			}else
+			} else
 				dragging = false;
 			
 		ClickGui gui = ForgeWurst.getForgeWurst().getGui();
@@ -77,15 +69,13 @@ public final class Slider extends Component
 		int y4 = y3 + 4;
 		int y5 = y2 - 4;
 		
-		int scroll = getParent().isScrollingEnabled()
-			? getParent().getScrollOffset() : 0;
-		boolean hovering = mouseX >= x1 && mouseY >= y1 && mouseX < x2
-			&& mouseY < y2 && mouseY >= -scroll
-			&& mouseY < getParent().getHeight() - 13 - scroll;
+		int scroll = getParent().isScrollingEnabled() ? getParent().getScrollOffset() : 0;
+		boolean hovering = mouseX >= x1 && mouseY >= y1 && mouseX < x2 && mouseY < y2
+						   && mouseY >= -scroll && mouseY < getParent().getHeight() - 13 - scroll;
 		boolean hSlider = hovering && mouseY >= y3 || dragging;
 		
 		// tooltip
-		if(hovering && mouseY < y3)
+		if (hovering && mouseY < y3)
 			gui.setTooltip(setting.getDescription());
 		
 		// background
@@ -110,8 +100,7 @@ public final class Slider extends Component
 		GL11.glEnd();
 		
 		// rail
-		GL11.glColor4f(bgColor[0], bgColor[1], bgColor[2],
-			hSlider ? opacity * 1.5F : opacity);
+		GL11.glColor4f(bgColor[0], bgColor[1], bgColor[2], hSlider ? opacity * 1.5F : opacity);
 		GL11.glBegin(GL11.GL_QUADS);
 		GL11.glVertex2i(x3, y4);
 		GL11.glVertex2i(x3, y5);
@@ -126,8 +115,7 @@ public final class Slider extends Component
 		GL11.glVertex2i(x4, y4);
 		GL11.glEnd();
 		
-		double percentage = (setting.getValue() - setting.getMin())
-			/ (setting.getMax() - setting.getMin());
+		double percentage = (setting.getValue() - setting.getMin()) / (setting.getMax() - setting.getMin());
 		double xk1 = x1 + (x2 - x1 - 8) * percentage;
 		double xk2 = xk1 + 8;
 		double yk1 = y3 + 1.5;
@@ -157,22 +145,18 @@ public final class Slider extends Component
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		FontRenderer fr = WMinecraft.getFontRenderer();
 		fr.drawString(setting.getName(), x1, y1 + 2, 0xf0f0f0);
-		fr.drawString(setting.getValueString(),
-			x2 - fr.getStringWidth(setting.getValueString()), y1 + 2, 0xf0f0f0);
+		fr.drawString(setting.getValueString(), x2 - fr.getStringWidth(setting.getValueString()), y1 + 2, 0xf0f0f0);
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 	}
 	
 	@Override
-	public int getDefaultWidth()
-	{
+	public int getDefaultWidth() {
 		FontRenderer fr = WMinecraft.getFontRenderer();
-		return fr.getStringWidth(setting.getName())
-			+ fr.getStringWidth(setting.getValueString()) + 6;
+		return fr.getStringWidth(setting.getName()) + fr.getStringWidth(setting.getValueString()) + 6;
 	}
 	
 	@Override
-	public int getDefaultHeight()
-	{
+	public int getDefaultHeight() {
 		return 22;
 	}
 }

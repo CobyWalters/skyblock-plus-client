@@ -10,25 +10,21 @@ package net.wurstclient.forge.compatibility;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.AbstractHorse;
 
-public final class WEntity
-{
-	public static boolean isCollidedHorizontally(Entity entity)
-	{
+public final class WEntity {
+	
+	public static boolean isCollidedHorizontally(Entity entity) {
 		return entity.collidedHorizontally;
 	}
 	
-	public static float getDistance(Entity e1, Entity e2)
-	{
+	public static float getDistance(Entity e1, Entity e2) {
 		return e1.getDistance(e2);
 	}
 	
-	public static double getDistanceSq(Entity e1, Entity e2)
-	{
+	public static double getDistanceSq(Entity e1, Entity e2) {
 		return e1.getDistanceSq(e2);
 	}
 	
-	public static boolean isTamedHorse(Entity e)
-	{
+	public static boolean isTamedHorse(Entity e) {
 		return e instanceof AbstractHorse && ((AbstractHorse)e).isTame();
 	}
 }

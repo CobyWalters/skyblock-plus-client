@@ -15,29 +15,25 @@ import net.minecraftforge.fml.common.eventhandler.Cancelable;
 import net.minecraftforge.fml.common.eventhandler.Event;
 
 @Cancelable
-public final class WChatInputEvent extends Event
-{
+public final class WChatInputEvent extends Event {
+	
 	private ITextComponent component;
 	private final List<ChatLine> chatLines;
 	
-	public WChatInputEvent(ITextComponent component, List<ChatLine> chatLines)
-	{
+	public WChatInputEvent(ITextComponent component, List<ChatLine> chatLines) {
 		this.component = component;
 		this.chatLines = chatLines;
 	}
 	
-	public ITextComponent getComponent()
-	{
+	public ITextComponent getComponent() {
 		return component;
 	}
 	
-	public void setComponent(ITextComponent component)
-	{
+	public void setComponent(ITextComponent component) {
 		this.component = component;
 	}
 	
-	public List<ChatLine> getChatLines()
-	{
+	public List<ChatLine> getChatLines() {
 		return chatLines;
 	}
 }

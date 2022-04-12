@@ -9,8 +9,8 @@ package net.wurstclient.forge.update;
 
 import java.util.regex.Pattern;
 
-public final class Version implements Comparable<Version>
-{
+public final class Version implements Comparable<Version> {
+	
 	private static final Pattern SYNTAX =
 		Pattern.compile("^[0-9]+\\.[0-9]+(?:\\.[0-9]+)?(?:pre[0-9]+)?$");
 	
@@ -19,10 +19,8 @@ public final class Version implements Comparable<Version>
 	private final int patch;
 	private final int preRelease;
 	
-	public Version(String version)
-	{
-		if(!SYNTAX.asPredicate().test(version))
-		{
+	public Version(String version) {
+		if (!SYNTAX.asPredicate().test(version)) {
 			major = -1;
 			minor = -1;
 			patch = -1;
@@ -33,13 +31,11 @@ public final class Version implements Comparable<Version>
 		int indexOfPre = version.indexOf("pre");
 		
 		String[] parts;
-		if(indexOfPre == -1)
-		{
+		if (indexOfPre == -1) {
 			preRelease = Integer.MAX_VALUE;
 			parts = version.split("\\.");
 			
-		}else
-		{
+		} else {
 			preRelease = Integer.parseInt(version.substring(indexOfPre + 3));
 			parts = version.substring(0, indexOfPre).split("\\.");
 		}
@@ -48,67 +44,58 @@ public final class Version implements Comparable<Version>
 		
 		minor = Integer.parseInt(parts[1]);
 		
-		if(parts.length == 3)
+		if (parts.length == 3)
 			patch = Integer.parseInt(parts[2]);
 		else
 			patch = 0;
 	}
 	
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
 		return major << 24 | minor << 16 | patch << 8 | preRelease;
 	}
 	
 	@Override
-	public boolean equals(Object obj)
-	{
-		return super.equals(obj)
-			|| obj instanceof Version && compareTo((Version)obj) == 0;
+	public boolean equals(Object obj) {
+		return super.equals(obj) || obj instanceof Version && compareTo((Version)obj) == 0;
 	}
 	
 	@Override
-	public int compareTo(Version o)
-	{
-		if(major != o.major)
+	public int compareTo(Version o) {
+		if (major != o.major)
 			return Integer.compare(major, o.major);
 		
-		if(minor != o.minor)
+		if (minor != o.minor)
 			return Integer.compare(minor, o.minor);
 		
-		if(patch != o.patch)
+		if (patch != o.patch)
 			return Integer.compare(patch, o.patch);
 		
-		if(preRelease != o.preRelease)
+		if (preRelease != o.preRelease)
 			return Integer.compare(preRelease, o.preRelease);
 		
 		return 0;
 	}
 	
-	public boolean isLowerThan(Version other)
-	{
+	public boolean isLowerThan(Version other) {
 		return compareTo(other) < 0;
 	}
 	
-	public boolean isLowerThan(String other)
-	{
+	public boolean isLowerThan(String other) {
 		return isLowerThan(new Version(other));
 	}
 	
-	public boolean isHigherThan(Version other)
-	{
+	public boolean isHigherThan(Version other) {
 		return compareTo(other) > 0;
 	}
 	
-	public boolean isHigherThan(String other)
-	{
+	public boolean isHigherThan(String other) {
 		return isHigherThan(new Version(other));
 	}
 	
 	@Override
-	public String toString()
-	{
-		if(isInvalid())
+	public String toString() {
+		if (isInvalid())
 			return "(invalid version)";
 		
 		String s = major + "." + minor;
@@ -122,13 +109,11 @@ public final class Version implements Comparable<Version>
 		return s;
 	}
 	
-	public boolean isInvalid()
-	{
+	public boolean isInvalid() {
 		return major == -1 && minor == -1 && patch == -1;
 	}
 	
-	public boolean isPreRelease()
-	{
+	public boolean isPreRelease() {
 		return preRelease != Integer.MAX_VALUE;
 	}
 }

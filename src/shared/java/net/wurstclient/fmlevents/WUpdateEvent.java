@@ -10,17 +10,15 @@ package net.wurstclient.fmlevents;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraftforge.fml.common.eventhandler.Event;
 
-public final class WUpdateEvent extends Event
-{
+public final class WUpdateEvent extends Event {
+	
 	private final EntityPlayerSP player;
 	
-	public WUpdateEvent(EntityPlayerSP player)
-	{
+	public WUpdateEvent(EntityPlayerSP player) {
 		this.player = player;
 	}
 	
-	public EntityPlayerSP getPlayer()
-	{
+	public EntityPlayerSP getPlayer() {
 		return player;
 	}
 }
