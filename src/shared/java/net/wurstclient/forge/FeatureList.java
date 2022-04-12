@@ -44,7 +44,6 @@ public final class FeatureList extends WFeatureList {
 	public final BonemealAura bonemealAura = register(new BonemealAura());
 	public final BetterChat betterChat = register(new BetterChat());
 	public final ClickGui clickGui = register(new ClickGui());
-	public final Debug debug = register(new Debug());
 	public final FastPlace fastPlace = register(new FastPlace());
 	public final Flight flight = register(new Flight());
 	public final Freecam freecam = register(new Freecam());
