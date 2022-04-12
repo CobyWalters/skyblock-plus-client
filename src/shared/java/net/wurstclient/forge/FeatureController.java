@@ -181,7 +181,6 @@ public final class FeatureController {
 		if (sinceLastWorldLoad < 1000L || player.isDead || player.dimension == -1)
 			return;
 		
-		ChatUtils.message("Getting server info");
 		// Send the message, start waiting for the response to see which server the player is on
 		player.sendChatMessage("/server");
 		interceptingServerInfo = true;
@@ -204,7 +203,6 @@ public final class FeatureController {
 					if (serverNameCurrent.equals(serverName))
 						return;
 					serverName = serverNameCurrent;
-					//ChatUtils.message(serverName);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -239,7 +237,6 @@ public final class FeatureController {
 				try {
 					String line = message.substring(lineStart, lineEnd);
 					rank = line.replaceAll("(Rank:)|([\\[\\] \\n])", "");
-					//ChatUtils.message(rank);
 					controlSkyblockFeatures();
 				} catch (Exception e) {
 					e.printStackTrace();

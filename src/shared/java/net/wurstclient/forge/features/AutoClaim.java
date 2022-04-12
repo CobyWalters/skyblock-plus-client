@@ -136,7 +136,6 @@ public class AutoClaim extends Feature{
 	
 	private void checkForKitInfo(ClientChatReceivedEvent event, EntityPlayerSP player, String serverName) {
 		
-		ChatUtils.message("Intercepting kit info...");
 		String message = event.getMessage().getUnformattedText();
 		if (message.matches("/kit is not allowed in this area.")) {
 			interceptingKitInfo = false;
@@ -188,7 +187,6 @@ public class AutoClaim extends Feature{
 			timeOfNextDailyClaim.put(serverName, Minecraft.getSystemTime() + millis);
 			interceptingDailyInfo = false;
 			event.setCanceled(true);
-			ChatUtils.message("%" + millis);
 		}
 	}
 	
