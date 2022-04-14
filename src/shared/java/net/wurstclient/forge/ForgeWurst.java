@@ -114,4 +114,5 @@ public final class ForgeWurst {
 	public ClickGui getGui() {
 		return gui;
 	}
+	
 }
