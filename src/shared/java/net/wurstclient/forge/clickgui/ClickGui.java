@@ -66,9 +66,14 @@ public final class ClickGui {
 		windows.addAll(windowMap.values());
 
 		Window uiSettings = new Window("UI Settings");
-		for (Setting setting : features.clickGui.getSettings().values())
+		for (Setting setting : features.uiSettings.getSettings().values())
 			uiSettings.add(setting.getComponent());
 		windows.add(uiSettings);
+		
+		Window overlaySettings = new Window("Overlay Settings");
+		for (Setting setting : features.overlaySettings.getSettings().values())
+			overlaySettings.add(setting.getComponent());
+		windows.add(overlaySettings);
 		
 		for (Window window : windows)
 			window.setMinimized(true);
@@ -465,11 +470,10 @@ public final class ClickGui {
 	
 	public void updateColors() {
 		FeatureList features = ForgeWurst.getForgeWurst().getFeatures();
-		
-		opacity = features.clickGui.getOpacity();
-		bgColor = features.clickGui.getBgColor();
-		maxHeight = features.clickGui.getMaxHeight();
-		acColor = features.clickGui.getAcColor();
+		opacity = features.uiSettings.getOpacity();
+		bgColor = features.uiSettings.getBgColor();
+		maxHeight = features.uiSettings.getMaxHeight();
+		acColor = features.uiSettings.getAcColor();
 	}
 	
 	private void renderWindow(Window window, int mouseX, int mouseY, float partialTicks) {

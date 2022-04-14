@@ -43,7 +43,6 @@ public final class FeatureList extends WFeatureList {
 	public final AutoWalk autoWalk = register(new AutoWalk());
 	public final BonemealAura bonemealAura = register(new BonemealAura());
 	public final BetterChat betterChat = register(new BetterChat());
-	public final ClickGui clickGui = register(new ClickGui());
 	public final FastPlace fastPlace = register(new FastPlace());
 	public final Flight flight = register(new Flight());
 	public final Freecam freecam = register(new Freecam());
@@ -56,6 +55,10 @@ public final class FeatureList extends WFeatureList {
 	public final PlayerEsp playerEsp = register(new PlayerEsp());
 	public final TPSDisplay tpsDisplay = register(new TPSDisplay());
 	public final XRay xRay = register(new XRay());
+	
+	public final UISettings uiSettings = register(new UISettings());
+	public final OverlaySettings overlaySettings = register(new OverlaySettings());
+	public final OpenGUI openGUI = register(new OpenGUI());
 	
 	private final Path enabledFeaturesFile;
 	private final Path settingsFile;

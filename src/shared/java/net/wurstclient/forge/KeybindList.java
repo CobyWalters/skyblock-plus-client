@@ -75,7 +75,7 @@ public final class KeybindList {
 	
 	public void loadDefaults() {
 		keybinds.clear();
-		keybinds.add(new Keybind("RSHIFT", "clickgui"));
+		keybinds.add(new Keybind("RSHIFT", "opengui"));
 		save();
 	}
 	
