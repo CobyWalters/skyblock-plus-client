@@ -46,8 +46,6 @@ public final class IngameHUD {
 		
 		boolean blend = GL11.glGetBoolean(GL11.GL_BLEND);
 		
-		FeatureList featureList = ForgeWurst.getForgeWurst().getFeatures();
-		
 		if (!featureList.overlaySettings.isOverlayDisabled()) {
 			// color
 			clickGui.updateColors();
@@ -59,39 +57,40 @@ public final class IngameHUD {
 			double xOffset = featureList.overlaySettings.getXOffset();
 			double yOffset = featureList.overlaySettings.getYOffset();
 			String alignment = featureList.overlaySettings.getAlignment();
-
+			
 			ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
 			
-			// calculate overlay box width for alignment purposes
-			GL11.glPushMatrix();
-			GL11.glScaled(scale, scale, 1);
 			ArrayList<Feature> features = new ArrayList<>();
 			features.addAll(featureList.getValues());
 			features.removeIf((Feature f) -> !f.isEnabled());
+			
+			// calculate overlay width for alignment purposes
 			features.sort(Comparator.comparing((Feature f) -> -WMinecraft.getFontRenderer().getStringWidth(f.getRenderName())));
 			int biggestFeatureWidth = features.size() > 0 ? WMinecraft.getFontRenderer().getStringWidth(features.get(0).getRenderName()) : 0;
 			biggestFeatureWidth *= scale;
-			GL11.glPopMatrix();
 			
-			GL11.glPushMatrix();
-			GL11.glScaled(scale * 1.3, scale * 1.3, 1);
 			int titleWidth = WMinecraft.getFontRenderer().getStringWidth("Skyblock+ v" + ForgeWurst.VERSION);
 			titleWidth *= 1.3 * scale;
+			
 			int overlayWidth = Math.max(biggestFeatureWidth, titleWidth);
 			int overlayHeight = (int) ((14 + 9 * features.size()) * scale * scale - (6 + 5 * features.size()) * scale + 6 + 5 * features.size());
-			//ChatUtils.message(overlayWidth + features.get(0).getRenderName());
-			double x = 3 + xOffset * (sr.getScaledWidth() - overlayWidth - 6);
-			double y = 3 + yOffset * (sr.getScaledHeight() - overlayHeight - 6);
+			
+			// calculate starting x and y positions
 			int titleOffset = alignment.equals("LEFT") ? 0 :
 			      			  alignment.equals("RIGHT") ? overlayWidth - titleWidth : (overlayWidth - titleWidth) / 2;
-			WMinecraft.getFontRenderer().drawStringWithShadow("Skyblock+ v" + ForgeWurst.VERSION,
-															  (float) ((x + titleOffset) / (scale * 1.3)),
-															  (float) (y / (scale * 1.3)),
-															  textColor1);
+			double x = 3 + xOffset * (sr.getScaledWidth() - overlayWidth - 6);
+			double y = 3 + yOffset * (sr.getScaledHeight() - overlayHeight - 6);
+			double scaledX = (x + titleOffset) / (scale * 1.3);
+			double scaledY = y / (scale * 1.3);
+			
+			// draw title
+			GL11.glPushMatrix();
+			GL11.glScaled(scale * 1.3, scale * 1.3, 1);
+			WMinecraft.getFontRenderer().drawStringWithShadow("Skyblock+ v" + ForgeWurst.VERSION, (float) (scaledX), (float) (scaledY), textColor1);
 			GL11.glPopMatrix();
 			y += 14 * scale * scale - 6 * scale + 6;
 
-			// feature list
+			// draw enabled features
 			features.sort(Comparator.comparing(Feature::getName));
 			GL11.glPushMatrix();
 			GL11.glScaled(scale, scale, 1);
@@ -101,10 +100,9 @@ public final class IngameHUD {
 				int featureOffset = alignment.equals("LEFT") ? 0 :
 	      			  			    alignment.equals("RIGHT") ? overlayWidth - featureWidth : (overlayWidth - featureWidth) / 2;
 				int color = feature.isSupressed() ? textColor2 : textColor1;
-				WMinecraft.getFontRenderer().drawStringWithShadow(feature.getRenderName(),
-																  (float) ((x + featureOffset) / scale),
-																  (float) (y  / scale),
-																  color);
+				scaledX = (x + featureOffset) / scale;
+				scaledY = y / scale;
+				WMinecraft.getFontRenderer().drawStringWithShadow(feature.getRenderName(), (float) (scaledX), (float) (scaledY), color);
 				y += 9 * scale * scale - 5 * scale + 5;
 			}
 			GL11.glPopMatrix();
