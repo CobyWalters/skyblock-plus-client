@@ -1,7 +1,6 @@
 package net.wurstclient.forge.features;
 
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -18,8 +17,6 @@ import net.wurstclient.forge.compatibility.WItem;
 import net.wurstclient.forge.compatibility.WMinecraft;
 import net.wurstclient.forge.settings.CheckboxSetting;
 import net.wurstclient.forge.utils.BlockUtils;
-import net.wurstclient.forge.utils.ChatUtils;
-import net.wurstclient.forge.utils.InventoryUtils;
 
 public class AutoTool extends Feature {
 	

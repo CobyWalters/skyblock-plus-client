@@ -1,4 +1,5 @@
 package net.wurstclient.forge.features;
+
 import java.lang.reflect.Field;
 
 import com.google.common.collect.Iterables;
@@ -14,8 +15,6 @@ import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.wurstclient.fmlevents.WUpdateEvent;
@@ -28,7 +27,6 @@ import net.wurstclient.forge.settings.CheckboxSetting;
 import net.wurstclient.forge.settings.SliderSetting;
 import net.wurstclient.forge.settings.SliderSetting.ValueDisplay;
 import net.wurstclient.forge.utils.BlockUtils;
-import net.wurstclient.forge.utils.ChatUtils;
 
 public class BonemealAura extends Feature {
 	

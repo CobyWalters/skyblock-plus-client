@@ -12,7 +12,6 @@ import java.lang.reflect.Field;
 import java.util.function.Predicate;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.EnumFacing;

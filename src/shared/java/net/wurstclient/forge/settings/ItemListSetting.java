@@ -11,9 +11,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 
-import net.minecraft.block.Block;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.wurstclient.forge.ForgeWurst;
 import net.wurstclient.forge.clickgui.Component;
 import net.wurstclient.forge.clickgui.ItemListEditButton;

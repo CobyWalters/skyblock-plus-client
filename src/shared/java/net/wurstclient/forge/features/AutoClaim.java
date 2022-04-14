@@ -2,11 +2,7 @@ package net.wurstclient.forge.features;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.ToDoubleFunction;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,33 +10,18 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiChest;
-import net.minecraft.client.gui.inventory.GuiInventory;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.ClickType;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
-import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.wurstclient.fmlevents.WUpdateEvent;
 import net.wurstclient.forge.Category;
 import net.wurstclient.forge.Feature;
-import net.wurstclient.forge.FeatureController;
-import net.wurstclient.forge.ForgeWurst;
-import net.wurstclient.forge.compatibility.WEntity;
 import net.wurstclient.forge.compatibility.WMinecraft;
-import net.wurstclient.forge.compatibility.WPlayer;
-import net.wurstclient.forge.settings.CheckboxSetting;
-import net.wurstclient.forge.settings.EnumSetting;
-import net.wurstclient.forge.settings.Setting;
 import net.wurstclient.forge.utils.ChatUtils;
 import net.wurstclient.forge.utils.InventoryUtils;
-import net.wurstclient.forge.utils.PlayerControllerUtils;
-import net.wurstclient.forge.utils.RotationUtils;
 import net.wurstclient.forge.utils.SkyblockUtils;
 
 public class AutoClaim extends Feature{

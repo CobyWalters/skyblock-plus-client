@@ -1,32 +1,12 @@
 package net.wurstclient.forge.clickgui;
 
 import java.io.IOException;
-import java.util.List;
-
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
-
-import com.mojang.realmsclient.gui.ChatFormatting;
-
-import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.client.gui.GuiYesNo;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.client.GuiScrollingList;
-import net.wurstclient.forge.ForgeWurst;
-import net.wurstclient.forge.compatibility.WItem;
 import net.wurstclient.forge.compatibility.WMinecraft;
-import net.wurstclient.forge.settings.BlockListSetting;
 import net.wurstclient.forge.settings.TextInputSetting;
-import scala.Char;
 
 public final class TextInputScreen extends GuiScreen {
 	

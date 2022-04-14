@@ -16,7 +16,6 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.wurstclient.fmlevents.WPlayerMoveEvent;
 import net.wurstclient.forge.compatibility.WMinecraft;
-import net.wurstclient.forge.utils.ChatUtils;
 import net.wurstclient.forge.utils.SkyblockUtils;
 
 public final class FeatureController {

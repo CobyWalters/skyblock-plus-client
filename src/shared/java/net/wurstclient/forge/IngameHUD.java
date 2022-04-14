@@ -8,9 +8,7 @@
 package net.wurstclient.forge;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
-import java.util.Map;
 
 import org.lwjgl.opengl.GL11;
 
@@ -22,11 +20,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.wurstclient.forge.clickgui.ClickGui;
 import net.wurstclient.forge.clickgui.ClickGuiScreen;
 import net.wurstclient.forge.compatibility.WMinecraft;
-import net.wurstclient.forge.settings.CheckboxSetting;
-import net.wurstclient.forge.settings.EnumSetting;
-import net.wurstclient.forge.settings.Setting;
-import net.wurstclient.forge.settings.SliderSetting;
-import net.wurstclient.forge.utils.ChatUtils;
 
 public final class IngameHUD {
 	

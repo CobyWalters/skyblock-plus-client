@@ -32,7 +32,6 @@ import net.wurstclient.forge.compatibility.WPlayer;
 import net.wurstclient.forge.compatibility.WVec3d;
 import net.wurstclient.forge.settings.CheckboxSetting;
 import net.wurstclient.forge.settings.EnumSetting;
-import net.wurstclient.forge.utils.ChatUtils;
 import net.wurstclient.forge.utils.RenderUtils;
 import net.wurstclient.forge.utils.RotationUtils;
 

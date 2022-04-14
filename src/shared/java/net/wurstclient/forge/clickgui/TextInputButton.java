@@ -6,7 +6,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.wurstclient.forge.ForgeWurst;
 import net.wurstclient.forge.compatibility.WMinecraft;
-import net.wurstclient.forge.settings.ItemListSetting;
 import net.wurstclient.forge.settings.TextInputSetting;
 
 public final class TextInputButton extends Component {

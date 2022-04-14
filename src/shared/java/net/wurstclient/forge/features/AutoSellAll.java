@@ -1,6 +1,5 @@
 package net.wurstclient.forge.features;
 
-import java.awt.AWTException;
 import java.util.ArrayList;
 
 import net.minecraft.client.Minecraft;

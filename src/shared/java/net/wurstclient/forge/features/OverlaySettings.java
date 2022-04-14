@@ -1,7 +1,6 @@
 package net.wurstclient.forge.features;
 
 import net.wurstclient.forge.Feature;
-import net.wurstclient.forge.clickgui.ClickGuiScreen;
 import net.wurstclient.forge.settings.CheckboxSetting;
 import net.wurstclient.forge.settings.EnumSetting;
 import net.wurstclient.forge.settings.SliderSetting;

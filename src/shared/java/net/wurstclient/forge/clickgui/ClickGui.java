@@ -14,10 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
-import java.util.List;
-
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
@@ -30,7 +27,6 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.wurstclient.forge.Category;
 import net.wurstclient.forge.ForgeWurst;
 import net.wurstclient.forge.Feature;
-import net.wurstclient.forge.FeatureController;
 import net.wurstclient.forge.FeatureList;
 import net.wurstclient.forge.compatibility.WMinecraft;
 import net.wurstclient.forge.settings.Setting;
