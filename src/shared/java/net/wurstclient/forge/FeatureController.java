@@ -159,7 +159,7 @@ public final class FeatureController {
 				
 		// Only continue if playing on a skyblock.net server
 		ServerData server = Minecraft.getMinecraft().getCurrentServerData();
-		if (server == null || !server.serverIP.matches(".*skyblock\\.(com|net|org)")) {
+		if (server == null || !server.serverIP.toLowerCase().matches(".*skyblock\\.(com|net|org)")) {
 			serverName = null;
 			rank = null;
 			interceptingPlayerInfo = false;
