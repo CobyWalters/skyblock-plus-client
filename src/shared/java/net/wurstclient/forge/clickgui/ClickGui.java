@@ -123,15 +123,12 @@ public final class ClickGui {
 			if (jsonY.isJsonPrimitive() && jsonY.getAsJsonPrimitive().isNumber())
 				window.setY(jsonY.getAsInt());
 			
-			JsonElement jsonMinimized =
-				jsonWindow.getAsJsonObject().get("minimized");
-			if (jsonMinimized.isJsonPrimitive()
-				&& jsonMinimized.getAsJsonPrimitive().isBoolean())
+			JsonElement jsonMinimized = jsonWindow.getAsJsonObject().get("minimized");
+			if (jsonMinimized.isJsonPrimitive() && jsonMinimized.getAsJsonPrimitive().isBoolean())
 				window.setMinimized(jsonMinimized.getAsBoolean());
 			
 			JsonElement jsonPinned = jsonWindow.getAsJsonObject().get("pinned");
-			if (jsonPinned.isJsonPrimitive()
-				&& jsonPinned.getAsJsonPrimitive().isBoolean())
+			if (jsonPinned.isJsonPrimitive() && jsonPinned.getAsJsonPrimitive().isBoolean())
 				window.setPinned(jsonPinned.getAsBoolean());
 		}
 		
