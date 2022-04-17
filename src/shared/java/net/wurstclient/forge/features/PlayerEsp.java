@@ -162,10 +162,10 @@ public class PlayerEsp extends Feature {
 		
 		GL11.glBegin(GL11.GL_LINES);
 		for (EntityPlayer e : players) {
-			Vec3d end = 
-				e.getEntityBoundingBox().getCenter().subtract(new Vec3d(e.posX, e.posY, e.posZ)
-																.subtract(e.prevPosX, e.prevPosY, e.prevPosZ)
-																.scale(1 - partialTicks));
+			Vec3d end = e.getEntityBoundingBox().getCenter()
+							.subtract(new Vec3d(e.posX, e.posY, e.posZ)
+											.subtract(e.prevPosX, e.prevPosY, e.prevPosZ)
+											.scale(1 - partialTicks));
 			
 			float f = WEntity.getDistance(WMinecraft.getPlayer(), e) / 20F;
 			GL11.glColor4f(2 - f, f, 0, 0.5F);

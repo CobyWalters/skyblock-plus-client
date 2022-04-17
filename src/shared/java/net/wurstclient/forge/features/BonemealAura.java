@@ -77,7 +77,7 @@ public class BonemealAura extends Feature {
 			rightClickDelayTimer.setAccessible(true);
 			if (rightClickDelayTimer.getInt(mc) > 0)
 				return;
-		} catch(ReflectiveOperationException e) {
+		} catch (ReflectiveOperationException e) {
 			setEnabled(false);
 			throw new RuntimeException(e);
 		}

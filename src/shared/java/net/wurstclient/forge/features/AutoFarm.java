@@ -347,7 +347,7 @@ public class AutoFarm extends Feature {
 				prevProgress = progress;
 				progress = PlayerControllerUtils.getCurBlockDamageMP();
 				
-				if(progress < prevProgress)
+				if (progress < prevProgress)
 					prevProgress = progress;
 				
 			} catch (ReflectiveOperationException e) {
