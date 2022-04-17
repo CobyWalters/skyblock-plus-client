@@ -1,16 +1,24 @@
 package net.wurstclient.forge.features;
 
+import java.lang.reflect.Field;
+
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.wurstclient.fmlevents.WUpdateEvent;
 import net.wurstclient.forge.Category;
 import net.wurstclient.forge.Feature;
+import net.wurstclient.forge.utils.BlockUtils;
 import net.wurstclient.forge.utils.InventoryUtils;
-import net.wurstclient.forge.utils.KeyBindingUtils;
+import net.wurstclient.forge.utils.PlayerControllerUtils;
+import net.wurstclient.forge.utils.RotationUtils;
 
 public class AutoMine extends Feature {
+	
+	private BlockPos currentBlock;
 	
 	public AutoMine() {
 		super("AutoMine", 
@@ -28,24 +36,43 @@ public class AutoMine extends Feature {
 	@Override
 	protected void onDisable() {
 		MinecraftForge.EVENT_BUS.unregister(this);
-		KeyBindingUtils.setPressed(mc.gameSettings.keyBindAttack, false);
+		if (currentBlock != null) {
+			try {
+				PlayerControllerUtils.setIsHittingBlock(true);
+				mc.playerController.resetBlockRemoving();
+				currentBlock = null;
+			} catch(ReflectiveOperationException e) {
+				throw new RuntimeException(e);
+			}
+		}
 	}
 	
 	@SubscribeEvent
 	public void onUpdate(WUpdateEvent event) {
-
-		if (mc.objectMouseOver == null || mc.objectMouseOver.getBlockPos() == null) {
-			return;
-		}
 		
-		if (mc.gameSettings.keyBindAttack.isPressed() && !mc.playerController.getIsHittingBlock()) {
-			KeyBindingUtils.setPressed(mc.gameSettings.keyBindAttack, false);
-		} else if (isToolAboutToBreak(event)) {
-			KeyBindingUtils.setPressed(mc.gameSettings.keyBindAttack, false);
-		} else {
-			RayTraceResult lookingAt = mc.objectMouseOver;
-			KeyBindingUtils.setPressed(mc.gameSettings.keyBindAttack, lookingAt != null && lookingAt.typeOfHit == RayTraceResult.Type.BLOCK);
-		}
+		EntityPlayerSP player = event.getPlayer();
+		Vec3d eyesPos = RotationUtils.getEyesPos().subtract(0.5, 0.5, 0.5);
+		double blockRange = 6;
+		double rangeSq = Math.pow(blockRange, 2);
+		BlockPos lookingAt = mc.objectMouseOver.getBlockPos();
+		
+		if (isAttackKeybindPressed())
+			return;
+		else if (isToolAboutToBreak(event))
+			return;
+		else if (lookingAt == null)
+			return;
+		else if (!BlockUtils.canBeClicked(lookingAt))
+			return;
+		else if (eyesPos.squareDistanceTo(new Vec3d(lookingAt)) > rangeSq)
+			return;
+	
+		if (player.capabilities.isCreativeMode)
+			mc.playerController.resetBlockRemoving();
+		
+		boolean breaking = BlockUtils.breakBlockSimple(lookingAt);
+		if (!breaking)
+			mc.playerController.resetBlockRemoving();
 	}
 	
 	private boolean isToolAboutToBreak(WUpdateEvent event) {
@@ -56,6 +83,18 @@ public class AutoMine extends Feature {
 				return true;
 		}
 		return false;
+	}
+	
+	private boolean isAttackKeybindPressed() {
+		try {
+			Field pressed = mc.gameSettings.keyBindAttack.getClass().getDeclaredField(
+				wurst.isObfuscated() ? "field_74513_e" : "pressed");
+			pressed.setAccessible(true);
+			return pressed.getBoolean(mc.gameSettings.keyBindAttack);
+		} catch(ReflectiveOperationException e) {
+			setEnabled(false);
+			throw new RuntimeException(e);
+		}
 	}
 	
 }
