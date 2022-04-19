@@ -33,6 +33,10 @@ public final class PlayerControllerUtils {
 		return mc.playerController.windowClick(0, slot, 1, ClickType.THROW, WMinecraft.getPlayer());
 	}
 	
+	public static ItemStack windowClick_QUICK_MOVE_WINDOW(int windowId, int slot) {
+		return mc.playerController.windowClick(windowId, slot, 0, ClickType.QUICK_MOVE, WMinecraft.getPlayer());
+	}
+	
 	public static float getCurBlockDamageMP() throws ReflectiveOperationException {
 		Field field = PlayerControllerMP.class.getDeclaredField(wurst.isObfuscated() ? "field_78770_f" : "curBlockDamageMP");
 		field.setAccessible(true);
