@@ -148,12 +148,12 @@ public class AutoSellAll extends Feature {
 		
 		int windowId = WMinecraft.getPlayer().openContainer.windowId;
 		InventoryPlayer inventory = player.inventory;
-		for (int i = 0; i < 36; ++i) {
-			ChatUtils.message("$" + i);
+		for (int i = 27; i < 63; ++i) {
+			//ChatUtils.message("$" + i);
 			for (String itemName : itemNames) {
-				if (Item.getIdFromItem(inventory.getStackInSlot(i).getItem()) == Integer.parseInt(itemName)) {
+				if (Item.getIdFromItem(inventory.getStackInSlot((i + 18) % 36).getItem()) == Integer.parseInt(itemName)) {
 					ChatUtils.message("clickin " + i);
-					PlayerControllerUtils.windowClick_QUICK_MOVE_WINDOW(windowId, i++ + 18);
+					PlayerControllerUtils.windowClick_QUICK_MOVE_WINDOW(windowId, i);
 					return true;
 				}
 			}
