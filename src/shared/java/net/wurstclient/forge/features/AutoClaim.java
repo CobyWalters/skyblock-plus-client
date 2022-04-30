@@ -187,7 +187,7 @@ public class AutoClaim extends Feature{
 		Long nextDailyClaim = timeOfNextDailyClaim.get(serverName);
 		if (nextDailyClaim == null)
 			timeOfNextDailyClaim.put(serverName, currentTime + 1000);
-		else if (currentTime > nextDailyClaim) {
+		else if (currentTime > nextDailyClaim && Minecraft.getMinecraft().currentScreen == null) {
 			claimingDaily = true;
 			ChatUtils.sendMessage(player, "/daily");
 		}
