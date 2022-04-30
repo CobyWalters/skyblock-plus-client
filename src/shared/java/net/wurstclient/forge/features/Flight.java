@@ -22,10 +22,11 @@ public class Flight extends Feature {
 	
 	public Flight() {
 		super("Flight",
-			"Allows you to fly.\n\n"
-				+ "\u00a7c\u00a7lWARNING:\u00a7r You will take fall damage\n"
-				+ "if you don't use NoFall.",
-			true);
+			  "Allows you to fly.\n\n" +
+			   "\u00a7c\u00a7lWARNING:\u00a7r You will take fall damage\n" +
+			   "if you have not enabled /fly.\n\n" + 
+			   "Requires /fly in skyblock servers.",
+			  true);
 		setCategory(Category.MOVEMENT);
 		addSetting(speed);
 	}

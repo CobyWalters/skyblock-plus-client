@@ -23,7 +23,7 @@ public class AutoRepair extends Feature {
 		super("AutoRepair", 
 			  "Repairs the tool in your hand if\n" + 
 			   "it reaches 5% durability.\n\n" +
-			   "Requires /repair",
+			   "Requires /repair.",
 			  false);
 		setCategory(Category.SKYBLOCK);
 	}
