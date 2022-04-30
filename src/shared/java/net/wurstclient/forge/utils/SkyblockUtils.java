@@ -13,8 +13,12 @@ public class SkyblockUtils {
 					"economy", "skyblock"
 				});
 	
-	static final List<String> privilegedRanks = Arrays.asList(new String[] {
+	static final List<String> specialCommandsRanks = Arrays.asList(new String[] {
 					"Highroller", "Elite", "Skytitan", "Skygod", "Skylord"
+				});
+	
+	static final List<String> coloredChatRanks = Arrays.asList(new String[] {
+					"Highroller", "Elite", "VIP", "Skytitan", "Skygod", "Skylord", "Skyking"
 				});
 	
 	static final List<String> staffRanks = Arrays.asList(new String[] {
@@ -29,8 +33,12 @@ public class SkyblockUtils {
 		return mainServers.contains(serverName);
 	}
 	
-	public static boolean isRankHighEnough(String rank) {
-		return privilegedRanks.contains(rank) || staffRanks.contains(rank);
+	public static boolean canUseSpecialCommands(String rank) {
+		return specialCommandsRanks.contains(rank) || staffRanks.contains(rank);
+	}
+	
+	public static boolean canUseColoredChat(String rank) {
+		return coloredChatRanks.contains(rank) || staffRanks.contains(rank);
 	}
 	
 	public static boolean isStaff(String rank) {
