@@ -11,6 +11,7 @@ import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
@@ -81,9 +82,9 @@ public class AutoSellAll extends Feature {
 			return;
 		else if (mode.getSelected().name.equals("Full Inventory") && !dumping && player.inventory.getFirstEmptyStack() != -1)
 			return;
-
+		
 		String rank = wurst.getFeatureController().getPlayerRank();
-		if (sendToEnderchest.isChecked() && SkyblockUtils.isRankHighEnough(rank)) {
+		if (sendToEnderchest.isChecked() && SkyblockUtils.canUseSpecialCommands(rank)) {
 			if (openingEnderchest) {
 				waitForEnderchest();
 				return;
@@ -149,10 +150,10 @@ public class AutoSellAll extends Feature {
 		int windowId = WMinecraft.getPlayer().openContainer.windowId;
 		InventoryPlayer inventory = player.inventory;
 		for (int i = 27; i < 63; ++i) {
-			//ChatUtils.message("$" + i);
+			ItemStack x = inventory.getStackInSlot((i + 18) % 36);
 			for (String itemName : itemNames) {
+				if (i == 62)
 				if (Item.getIdFromItem(inventory.getStackInSlot((i + 18) % 36).getItem()) == Integer.parseInt(itemName)) {
-					ChatUtils.message("clickin " + i);
 					PlayerControllerUtils.windowClick_QUICK_MOVE_WINDOW(windowId, i);
 					return true;
 				}

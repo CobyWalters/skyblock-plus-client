@@ -24,7 +24,6 @@ public final class ItemListSetting extends Setting {
 	
 	public ItemListSetting(String name, String description, Item... items) {
 		super(name, description);
-		//Item.REGISTRY.getObjectById(Item.getByNameOrId(id));
 		Arrays.stream(items).parallel()
 			.map(i -> Integer.toString(Item.getIdFromItem(i)))
 			.distinct().sorted().forEachOrdered(s -> itemNames.add(s));
