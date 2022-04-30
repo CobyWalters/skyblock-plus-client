@@ -38,10 +38,10 @@ public final class IngameHUD {
 			return;
 		
 		boolean blend = GL11.glGetBoolean(GL11.GL_BLEND);
+		clickGui.updateColors();
 		
 		if (!featureList.overlaySettings.isOverlayDisabled()) {
 			// color
-			clickGui.updateColors();
 			int textColor1 = 0xffffff;
 			int textColor2 = 0xaaaaaa;
 
