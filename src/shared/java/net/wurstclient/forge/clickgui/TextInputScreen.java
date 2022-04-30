@@ -2,11 +2,8 @@ package net.wurstclient.forge.clickgui;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.Collections;
-import java.util.ArrayList;
 
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -14,7 +11,6 @@ import net.minecraft.client.gui.GuiTextField;
 import net.wurstclient.forge.ForgeWurst;
 import net.wurstclient.forge.compatibility.WMinecraft;
 import net.wurstclient.forge.settings.TextInputSetting;
-import net.wurstclient.forge.utils.ChatUtils;
 import net.wurstclient.forge.utils.SkyblockUtils;
 
 public final class TextInputScreen extends GuiScreen {
@@ -224,7 +220,7 @@ public final class TextInputScreen extends GuiScreen {
 		String formattingHelp = "\u00a7aa\u00a7bb\u00a7cc\u00a7dd\u00a7ee\u00a7ff\u00a700\u00a711\u00a722\u00a733\u00a744\u00a755\u00a766\u00a777\u00a788\u00a799\u00a7r";
 		String rank = ForgeWurst.getForgeWurst().getFeatureController().getPlayerRank();
 		if (SkyblockUtils.canUseColoredChat(rank))
-			drawCenteredString(WMinecraft.getFontRenderer(), textInputSetting.getName() + " (formatting help: " + formattingHelp + ")", width / 2, height - 112, 0xffffff);
+			drawCenteredString(WMinecraft.getFontRenderer(), textInputSetting.getName() + " \u00a77(formatting help: " + formattingHelp + "\u00a77)", width / 2, height - 112, 0xffffff);
 		else
 			drawCenteredString(WMinecraft.getFontRenderer(), textInputSetting.getName(), width / 2, height - 112, 0xffffff);
 		textInputField.drawTextBox();
