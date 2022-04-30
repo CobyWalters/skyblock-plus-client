@@ -1,23 +1,29 @@
 package net.wurstclient.forge.clickgui;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.Collections;
+import java.util.ArrayList;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
+import net.wurstclient.forge.ForgeWurst;
 import net.wurstclient.forge.compatibility.WMinecraft;
 import net.wurstclient.forge.settings.TextInputSetting;
 import net.wurstclient.forge.utils.ChatUtils;
+import net.wurstclient.forge.utils.SkyblockUtils;
 
 public final class TextInputScreen extends GuiScreen {
 	
 	private final GuiScreen prevScreen;
 	private final TextInputSetting textInputSetting;
 	
-	private GuiTextField fakeTextInputField;
-	private GuiTextField displayTextInputField;
+	private GuiTextField textInputField;
+	
 	private GuiButton clearButton;
 	private GuiButton doneButton;
 	
@@ -33,12 +39,10 @@ public final class TextInputScreen extends GuiScreen {
 	
 	@Override
 	public void initGui() {
-		fakeTextInputField = new GuiTextField(0, WMinecraft.getFontRenderer(), 0, 0, 0, 0);
-		fakeTextInputField.setMaxStringLength(256);
-		fakeTextInputField.setText(textInputSetting.getText());
-		displayTextInputField = new GuiTextField(1, WMinecraft.getFontRenderer(), 100, height - 100, width - 200, 18);
-		displayTextInputField.setMaxStringLength(256);
-		displayTextInputField.setText(textInputSetting.getText());
+		textInputField = new GuiTextField(1, WMinecraft.getFontRenderer(), 100, height - 100, width - 200, 18);
+		textInputField.setMaxStringLength(256);
+		textInputField.setText(textInputSetting.getText());
+		textInputField.setFocused(true);
 		buttonList.add(clearButton = new GuiButton(0, width - 95, height - 101, 45, 20, "Clear"));
 		buttonList.add(doneButton = new GuiButton(1, width / 2 - 100, height - 73, "Done"));
 	}
@@ -50,11 +54,11 @@ public final class TextInputScreen extends GuiScreen {
 		
 		switch (button.id) {
 			case 0:
-				fakeTextInputField.setText("");
-				displayTextInputField.setText("");
+				textInputField.setText("");
 				break;
 			case 1:
-				textInputSetting.setText(fakeTextInputField.getText());
+				removeDisplayFormatting();
+				textInputSetting.setText(textInputField.getText());
 				mc.displayGuiScreen(prevScreen);
 				break;
 		}
@@ -69,17 +73,21 @@ public final class TextInputScreen extends GuiScreen {
 	@Override
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
 		super.mouseClicked(mouseX, mouseY, mouseButton);
-		displayTextInputField.mouseClicked(mouseX, mouseY, mouseButton);
+		textInputField.mouseClicked(mouseX, mouseY, mouseButton);
+		removeDisplayFormatting();
+		String rank = ForgeWurst.getForgeWurst().getFeatureController().getPlayerRank();
+		if (!SkyblockUtils.canUseColoredChat(rank))
+			return;
+		addDisplayFormatting();
+		addFormattingAfterCursor();
+		addFormattingAfterLineScrollOffset();
 	}
 	
 	@Override
 	protected void keyTyped(char typedChar, int keyCode) throws IOException {
 		
-		fakeTextInputField.setFocused(true);
-		fakeTextInputField.textboxKeyTyped(typedChar, keyCode);
-		fakeTextInputField.setFocused(false);
-		displayTextInputField.setFocused(true);
-		displayTextInputField.textboxKeyTyped(typedChar, keyCode);
+		removeDisplayFormatting();
+		textInputField.textboxKeyTyped(typedChar, keyCode);
 		
 		if (keyCode == Keyboard.KEY_RETURN)
 			actionPerformed(doneButton);
@@ -88,45 +96,117 @@ public final class TextInputScreen extends GuiScreen {
 		else if (keyCode == Keyboard.KEY_ESCAPE)
 			mc.displayGuiScreen(prevScreen);
 		else {
-			// find formatting errors
-			String formattedText = fakeTextInputField.getText();
-			
-			if (formattedText.length() > 0 && formattedText.charAt(formattedText.length() - 1) == '\u00a7')
-				formattedText = formattedText.substring(0, formattedText.length() - 1) + '&';
-			for (int i = 0; i < formattedText.length() - 1; ++i) {
-				if (formattedText.charAt(i) == '&' && Character.digit(formattedText.charAt(i + 1), 16) != -1)
-					formattedText = formattedText.substring(0, i) + '\u00a7' + formattedText.substring(i + 1);
-				else if (formattedText.charAt(i) == '\u00a7' && Character.digit(formattedText.charAt(i + 1), 16) == -1)
-					formattedText = formattedText.substring(0, i) + '&' + formattedText.substring(i + 1);
-			}
-			
-			ChatUtils.debugMessage("1: " + fakeTextInputField.getSelectedText());
-			ChatUtils.debugMessage("2: " + displayTextInputField.getSelectedText());
-			
-			// correct the formatting errors
-			int pos = fakeTextInputField.getCursorPosition();
-			int pos2 = fakeTextInputField.getSelectionEnd();
-			if (!fakeTextInputField.getText().equals(formattedText)) {
-				fakeTextInputField.setText(formattedText);
-				fakeTextInputField.setCursorPosition(pos);
-				fakeTextInputField.setSelectionPos(pos2);
-			}
-			
-			// apply the formatting that follows the cursor
-			String closestFormatting = getClosestFormatting(formattedText, pos);
-			formattedText = formattedText.substring(0, pos) + closestFormatting + formattedText.substring(pos);
-			displayTextInputField.setText(formattedText);
-			displayTextInputField.setCursorPosition(pos);
-			displayTextInputField.setSelectionPos(pos2);
-			
-			ChatUtils.debugMessage("3: " + fakeTextInputField.getSelectedText());
-			ChatUtils.debugMessage("4: " + displayTextInputField.getSelectedText());
+			String rank = ForgeWurst.getForgeWurst().getFeatureController().getPlayerRank();
+			if (!SkyblockUtils.canUseColoredChat(rank))
+				return;
+			addDisplayFormatting();
+			addFormattingAfterCursor();
+			addFormattingAfterLineScrollOffset();
 		}
 
 	}
 	
+	private void removeDisplayFormatting() {
+		String text = textInputField.getText();
+		int cursorPos = textInputField.getCursorPosition();
+		int selectionPos = textInputField.getSelectionEnd();
+		for (int i = 0; i < text.length() - 1; ++i) {
+			if (text.charAt(i) == '\u00a7' && Character.digit(text.charAt(i + 1), 16) != -1) {
+				text = text.substring(0, i) + text.substring(i + 2);
+				cursorPos = i < cursorPos - 1 ? cursorPos - 2 : i < cursorPos ? cursorPos - 1 : cursorPos;
+				selectionPos = i < selectionPos - 1 ? selectionPos - 2 : i < selectionPos ? selectionPos - 1 : selectionPos;
+				i--;
+			}
+		}
+		if (!textInputField.getText().equals(text)) {
+			textInputField.setText(text);
+			textInputField.setCursorPosition(cursorPos);
+			textInputField.setSelectionPos(selectionPos);
+		}
+	}
+
+	private void addDisplayFormatting() {
+		String text = textInputField.getText();
+		int cursorPos = textInputField.getCursorPosition();
+		int selectionPos = textInputField.getSelectionEnd();
+		for (int i = 0; i < text.length() - 1; ++i) {
+			if (text.charAt(i) == '&' && Character.digit(text.charAt(i + 1), 16) != -1) {
+				text = text.substring(0, i) + "\u00a7" + text.charAt(i + 1) + text.substring(i);
+				if (i <= cursorPos )
+					cursorPos += 2;
+				if (i <= selectionPos)
+					selectionPos += 2;
+				i += 2;
+			}
+		}
+		if (textInputField.getText().equals(text))
+			return;
+		if (text.length() > textInputField.getMaxStringLength())
+			return;
+		textInputField.setText(text);
+		textInputField.setCursorPosition(cursorPos);
+		textInputField.setSelectionPos(selectionPos);
+	}
+	
+	private void addFormattingAfterCursor() {
+		String text = textInputField.getText();
+		int cursorPos = textInputField.getCursorPosition();
+		int selectionPos = textInputField.getSelectionEnd();
+		int formattingIndex = Math.max(cursorPos, selectionPos);
+		String formatting = getClosestFormatting(text, formattingIndex);
+		if (formatting.equals(""))
+			return;
+		text = text.substring(0, formattingIndex) + formatting + text.substring(formattingIndex);
+		if (selectionPos > cursorPos)
+			selectionPos += formatting.length();
+		if (text.length() > textInputField.getMaxStringLength())
+			return;
+		textInputField.setText(text);
+		textInputField.setCursorPosition(cursorPos);
+		textInputField.setSelectionPos(selectionPos);
+	}
+
+	private void addFormattingAfterLineScrollOffset() {
+		String text = textInputField.getText();
+		int lineScrollOffset = getLineScrollOffset();
+		int cursorPos = textInputField.getCursorPosition();
+		int selectionPos = textInputField.getSelectionEnd();
+		if (cursorPos == lineScrollOffset || lineScrollOffset == 0 || text.charAt(lineScrollOffset) == '\u00a7')
+			return;
+		String formatting = getClosestFormatting(text, lineScrollOffset);
+		if (formatting.equals(""))
+			return;
+		String newText = text.substring(0, lineScrollOffset) + formatting + text.substring(lineScrollOffset);
+		if (newText.length() > textInputField.getMaxStringLength())
+			return;
+		textInputField.setText(newText);
+		textInputField.setCursorPosition(cursorPos + formatting.length());
+		textInputField.setSelectionPos(selectionPos + formatting.length());
+		if (lineScrollOffset == getLineScrollOffset())
+			return;
+		++lineScrollOffset;
+		formatting = getClosestFormatting(text, lineScrollOffset);
+		newText = text.substring(0, lineScrollOffset) + formatting + text.substring(lineScrollOffset);
+		if (newText.length() > textInputField.getMaxStringLength())
+			return;
+		textInputField.setText(newText);
+		textInputField.setCursorPosition(cursorPos + formatting.length());
+		textInputField.setSelectionPos(selectionPos + formatting.length());
+	}
+	
+	private int getLineScrollOffset() {
+		try {
+			Field lineScrollOffset = textInputField.getClass().getDeclaredField(
+				ForgeWurst.getForgeWurst().isObfuscated() ? "field_146225_q" : "lineScrollOffset");
+			lineScrollOffset.setAccessible(true);
+			return lineScrollOffset.getInt(textInputField);
+		} catch(ReflectiveOperationException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
 	public String getClosestFormatting(String formattedText, int cursorPosition) {
-		for (int i = cursorPosition - 1; i >= 0; --i)
+		for (int i = cursorPosition - 2; i >= 0; --i)
 			if (formattedText.charAt(i) == '\u00a7' && Character.digit(formattedText.charAt(i + 1), 16) != -1)
 				return formattedText.substring(i, i + 2);
 		return "";
@@ -134,17 +214,22 @@ public final class TextInputScreen extends GuiScreen {
 	
 	@Override
 	public void updateScreen() {
-		displayTextInputField.updateCursorCounter();
-		clearButton.enabled = !displayTextInputField.getText().equals("");
+		textInputField.updateCursorCounter();
+		clearButton.enabled = !textInputField.getText().equals("");
 	}
 	
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		drawDefaultBackground();
-		drawCenteredString(WMinecraft.getFontRenderer(), textInputSetting.getName(), width / 2, 12, 0xffffff);
-		displayTextInputField.drawTextBox();
+		String formattingHelp = "\u00a7aa\u00a7bb\u00a7cc\u00a7dd\u00a7ee\u00a7ff\u00a700\u00a711\u00a722\u00a733\u00a744\u00a755\u00a766\u00a777\u00a788\u00a799\u00a7r";
+		String rank = ForgeWurst.getForgeWurst().getFeatureController().getPlayerRank();
+		if (SkyblockUtils.canUseColoredChat(rank))
+			drawCenteredString(WMinecraft.getFontRenderer(), textInputSetting.getName() + " (formatting help: " + formattingHelp + ")", width / 2, height - 112, 0xffffff);
+		else
+			drawCenteredString(WMinecraft.getFontRenderer(), textInputSetting.getName(), width / 2, height - 112, 0xffffff);
+		textInputField.drawTextBox();
 		super.drawScreen(mouseX, mouseY, partialTicks);
-		if (displayTextInputField.getText().isEmpty() && !displayTextInputField.isFocused())
+		if (textInputField.getText().isEmpty() && !textInputField.isFocused())
 			drawString(WMinecraft.getFontRenderer(), "_", 104, height - 95, 0x808080);
 	}
 	
