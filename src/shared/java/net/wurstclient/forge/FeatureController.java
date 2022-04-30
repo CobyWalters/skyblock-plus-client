@@ -82,7 +82,6 @@ public final class FeatureController {
 	private boolean inPublicSpace;
 	private String serverName;
 	private long timeOfLastWorldLoad;
-	private int blankMessageCounter;
 	private boolean interceptingPlayerInfo;
 	private boolean interceptingServerInfo;
 	private String rank;
@@ -222,13 +221,7 @@ public final class FeatureController {
 		// handle player rank detection
 		if (interceptingPlayerInfo) {
 			String message = event.getMessage().getUnformattedText();
-			if (message.equals(" ")) {
-				if (++blankMessageCounter == 2) {
-					interceptingPlayerInfo = false;
-					blankMessageCounter = 0;
-				}
-				event.setCanceled(true);
-			} else if (message.startsWith(WMinecraft.getPlayer().getName()) && message.contains("Rank: ")) {
+			if (message.startsWith(WMinecraft.getPlayer().getName()) && message.contains("Rank: ")) {
 				int lineStart = message.indexOf("Rank: ");
 				int lineEnd = message.indexOf('\n', lineStart);
 				try {
@@ -238,6 +231,7 @@ public final class FeatureController {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+				interceptingPlayerInfo = false;
 				event.setCanceled(true);
 			}
 		}
