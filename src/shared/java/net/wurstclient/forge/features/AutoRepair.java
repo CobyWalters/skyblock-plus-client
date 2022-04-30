@@ -11,7 +11,6 @@ import net.wurstclient.forge.Category;
 import net.wurstclient.forge.Feature;
 import net.wurstclient.forge.ForgeWurst;
 import net.wurstclient.forge.compatibility.WMinecraft;
-import net.wurstclient.forge.utils.ChatUtils;
 import net.wurstclient.forge.utils.InventoryUtils;
 import net.wurstclient.forge.utils.SkyblockUtils;
 

@@ -8,18 +8,14 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Items;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.wurstclient.fmlevents.WUpdateEvent;
 import net.wurstclient.forge.Category;
 import net.wurstclient.forge.Feature;
-import net.wurstclient.forge.FeatureController;
-import net.wurstclient.forge.ForgeWurst;
 import net.wurstclient.forge.compatibility.WMinecraft;
 import net.wurstclient.forge.settings.CheckboxSetting;
 import net.wurstclient.forge.settings.EnumSetting;
@@ -150,7 +146,6 @@ public class AutoSellAll extends Feature {
 		int windowId = WMinecraft.getPlayer().openContainer.windowId;
 		InventoryPlayer inventory = player.inventory;
 		for (int i = 27; i < 63; ++i) {
-			ItemStack x = inventory.getStackInSlot((i + 18) % 36);
 			for (String itemName : itemNames) {
 				if (i == 62)
 				if (Item.getIdFromItem(inventory.getStackInSlot((i + 18) % 36).getItem()) == Integer.parseInt(itemName)) {
