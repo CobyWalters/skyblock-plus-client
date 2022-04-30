@@ -20,14 +20,14 @@ import net.wurstclient.forge.settings.SliderSetting.ValueDisplay;
 public class TPSDisplay extends Feature {
 
 	private final SliderSetting scale = new SliderSetting("Overlay scale", 1, 0.50, 1, 0.01, ValueDisplay.PERCENTAGE);
-	private final SliderSetting xOffset = new SliderSetting("Overlay X offset", 0, 0, 1, 0.01, ValueDisplay.PERCENTAGE);
+	private final SliderSetting xOffset = new SliderSetting("Overlay X offset", 1, 0, 1, 0.01, ValueDisplay.PERCENTAGE);
 	private final SliderSetting yOffset = new SliderSetting("Overlay Y offset", 0, 0, 1, 0.01, ValueDisplay.PERCENTAGE);
 	
 	private long prevTime;
 	private double tps = 20;
 	
 	public TPSDisplay() {
-		super("TPS", "Displays the TPS (ticks per second) in the top left corner.", false);
+		super("TPS", "Displays the TPS (ticks per second) in the top right corner.", false);
 		setCategory(Category.UTILITY);
 		addSetting(scale);
 		addSetting(xOffset);
@@ -69,7 +69,7 @@ public class TPSDisplay extends Feature {
 		
 		GL11.glPushMatrix();
 		GL11.glScaled(tpsScale, tpsScale, 1);
-		int tpsWidth = WMinecraft.getFontRenderer().getStringWidth("TPS: " + tps);
+		int tpsWidth = (int) (WMinecraft.getFontRenderer().getStringWidth("TPS: " + tps) * tpsScale);
 		int tpsHeight = (int) (9 * tpsScale * tpsScale - 5 * tpsScale + 5);
 		double x = 3 + tpsXOffset * (sr.getScaledWidth() - tpsWidth - 6);
 		double y = 3 + tpsYOffset * (sr.getScaledHeight() - tpsHeight - 6);
