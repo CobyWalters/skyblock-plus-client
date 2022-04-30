@@ -133,8 +133,6 @@ public class BetterChat extends Feature {
 		String playerMessageUnformatted = "\u00a7r\u00a7f" + 
 												 message.substring(message.indexOf(':') + 2) +
 												 "\u00a7r";
-		ChatUtils.debugMessage(playerMessageFormatted);
-		ChatUtils.debugMessage(playerMessageUnformatted);
 		if (!playerMessageFormatted.equals(playerMessageUnformatted))
 			event.setCanceled(true);
 	}
