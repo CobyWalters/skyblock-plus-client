@@ -9,8 +9,11 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.wurstclient.fmlevents.WUpdateEvent;
 import net.wurstclient.forge.Category;
 import net.wurstclient.forge.Feature;
+import net.wurstclient.forge.ForgeWurst;
 import net.wurstclient.forge.compatibility.WMinecraft;
+import net.wurstclient.forge.utils.ChatUtils;
 import net.wurstclient.forge.utils.InventoryUtils;
+import net.wurstclient.forge.utils.SkyblockUtils;
 
 public class AutoRepair extends Feature {
 
@@ -41,6 +44,10 @@ public class AutoRepair extends Feature {
 		InventoryPlayer inventory =  player.inventory;
 		ItemStack currentStack = inventory.getCurrentItem();
 		
+		String rank = ForgeWurst.getForgeWurst().getFeatureController().getPlayerRank();
+		if (!SkyblockUtils.canUseSpecialCommands(rank))
+			return;
+
 		if (!InventoryUtils.isTool(currentStack))
 			return;
 		
