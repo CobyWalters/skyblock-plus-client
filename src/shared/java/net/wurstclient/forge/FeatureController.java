@@ -264,7 +264,7 @@ public final class FeatureController {
 		
 		// Suppress skyblock features selectively on the main skyblock servers
 		if (SkyblockUtils.isAMainServer(serverName))
-			suppressSkyblockFeaturesByRank(!SkyblockUtils.isRankHighEnough(rank));
+			suppressSkyblockFeaturesByRank(!SkyblockUtils.canUseSpecialCommands(rank));
 	}
 	
 	@SubscribeEvent
@@ -278,7 +278,7 @@ public final class FeatureController {
 				inPublicSpace = !inPublicSpace;
 				suppressFeatures(inPublicSpace);
 				if (!inPublicSpace) {
-					suppressSkyblockFeaturesByRank(!SkyblockUtils.isRankHighEnough(rank));
+					suppressSkyblockFeaturesByRank(!SkyblockUtils.canUseSpecialCommands(rank));
 				}
 			}
 		}
