@@ -40,6 +40,7 @@ public class AutoEat extends Feature {
 	@Override
 	protected void onDisable() {
 		MinecraftForge.EVENT_BUS.unregister(this);
+		oldSlot = -1;
 	}
 	
 	@SubscribeEvent
@@ -51,15 +52,14 @@ public class AutoEat extends Feature {
 			return;
 		}
 		
-		if (isEating())
-			return;
-		
 		int bestSlot = getBestFoodSlot();
 		if (bestSlot == -1)
 			return;
+		else if (isEating() && player.inventory.currentItem == bestSlot)
+			return;
 		
-		oldSlot = WMinecraft.getPlayer().inventory.currentItem;
-		WMinecraft.getPlayer().inventory.currentItem = bestSlot;
+		oldSlot = player.inventory.currentItem;
+		player.inventory.currentItem = bestSlot;
 		KeyBindingUtils.setPressed(mc.gameSettings.keyBindUseItem, true);
 		WPlayerController.processRightClick();
 	}
