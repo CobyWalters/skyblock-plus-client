@@ -174,7 +174,7 @@ public final class FeatureController {
 		// Try to avoid any unnecessary worldload events
 		EntityPlayerSP player = WMinecraft.getPlayer();
 		long currentTime = System.currentTimeMillis();
-		if ((timeOfLastWorldLoad != 0 && currentTime <= timeOfLastWorldLoad + 500L) || player.isDead || player.dimension == -1)
+		if ((timeOfLastWorldLoad != 0 && currentTime <= timeOfLastWorldLoad + 250L) || player.isDead || player.dimension == -1)
 			return;
 		timeOfLastWorldLoad = currentTime;
 		
