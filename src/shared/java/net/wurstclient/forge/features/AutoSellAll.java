@@ -147,7 +147,6 @@ public class AutoSellAll extends Feature {
 		InventoryPlayer inventory = player.inventory;
 		for (int i = 27; i < 63; ++i) {
 			for (String itemName : itemNames) {
-				if (i == 62)
 				if (Item.getIdFromItem(inventory.getStackInSlot((i + 18) % 36).getItem()) == Integer.parseInt(itemName)) {
 					PlayerControllerUtils.windowClick_QUICK_MOVE_WINDOW(windowId, i);
 					return true;
