@@ -36,7 +36,8 @@ import net.wurstclient.forge.compatibility.WVec3d;
 public final class BlockUtils {
 	
 	private static final Minecraft mc = Minecraft.getMinecraft();
-	private static final List<Integer> fortuneIDs = Arrays.asList(16, 21, 56, 73, 74, 89, 129, 153);
+	private static final List<Integer> fortuneIDs = Arrays.asList(13, 16, 21, 56, 73, 89, 103, 129, 153, 169, 214);
+	private static final List<Integer> silkIDs = Arrays.asList(2, 13, 16, 18, 21, 20, 47, 56, 73, 79, 80, 82, 89, 95, 97, 99, 100, 102, 103, 110, 129, 130, 153, 160, 161, 169, 174);
 	private static final List<Integer> interactableBlocks =
 		Arrays.asList(23, 25, 54, 58, 61, 69, 77, 96, 107, 116, 130, 138, 143, 145, 146, 151, 154, 158, 183,
 					  184, 185, 186, 187, 219, 220, 221, 222, 223, 224, 225, 226, 227, 228, 229, 230, 231,
@@ -51,6 +52,10 @@ public final class BlockUtils {
 	
 	public static int getId(BlockPos pos) {
 		return Block.getIdFromBlock(getBlock(pos));
+	}
+	
+	public static int getMetadata(BlockPos pos) {
+		return getBlock(pos).getMetaFromState(getState(pos));
 	}
 	
 	public static String getName(Block block) {
@@ -70,7 +75,16 @@ public final class BlockUtils {
 	}
 	
 	public static boolean canSilkHarvest(BlockPos pos) {
-		return getBlock(pos).canSilkHarvest(mc.world, pos, getState(pos), mc.player);
+		int id = getId(pos);
+		Block block = getBlock(pos);
+		IBlockState state = getState(pos);
+		if (silkIDs.indexOf(id) != -1)
+			return true;
+		else if (id == 1 && block.getMetaFromState(state) == 0)
+			return true;
+		else if (id == 3 && block.getMetaFromState(state) == 2)
+			return true;
+		return false;
 	}
 	
 	public static boolean canFortuneHarvest(BlockPos pos) {
