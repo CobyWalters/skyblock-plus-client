@@ -5,6 +5,7 @@ import java.lang.reflect.Field;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -54,7 +55,10 @@ public class AutoMine extends Feature {
 		Vec3d eyesPos = RotationUtils.getEyesPos().subtract(0.5, 0.5, 0.5);
 		double blockRange = 6;
 		double rangeSq = Math.pow(blockRange, 2);
-		BlockPos lookingAt = mc.objectMouseOver.getBlockPos();
+		RayTraceResult r = mc.objectMouseOver;
+		if (r == null)
+			return;
+		BlockPos lookingAt = r.getBlockPos();
 		
 		if (isAttackKeybindPressed())
 			return;
