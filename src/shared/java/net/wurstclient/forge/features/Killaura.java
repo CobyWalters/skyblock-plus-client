@@ -143,9 +143,8 @@ public class Killaura extends Feature {
 		swordSlot = null;
 	}
 	
-	public EntityLivingBase getTarget(WUpdateEvent event) {
+	public EntityLivingBase getTarget(EntityPlayerSP player) {
 		
-		EntityPlayerSP player = event.getPlayer();
 		World world = WPlayer.getWorld(player);
 		double rangeSq = Math.pow(range.getValue(), 2);
 		Stream<EntityLivingBase> stream = world.loadedEntityList
@@ -211,8 +210,8 @@ public class Killaura extends Feature {
 	public void onUpdate(WUpdateEvent event) {
 		
 		// Compatibility with AutoEat
-		AutoEat autoEatHack = wurst.getFeatures().autoEat;
-		if (autoEatHack.isEnabled() && autoEatHack.isEating())
+		AutoEat autoEat = wurst.getFeatures().autoEat;
+		if (autoEat.isEnabled() && autoEat.isEating())
 			return;
 				
 		EntityPlayerSP player = event.getPlayer();
@@ -221,7 +220,7 @@ public class Killaura extends Feature {
 		if (player.getCooledAttackStrength(0) < delay)
 			return;
 		
-		target = getTarget(event);
+		target = getTarget(player);
 		if (target == null)
 			return;
 		
