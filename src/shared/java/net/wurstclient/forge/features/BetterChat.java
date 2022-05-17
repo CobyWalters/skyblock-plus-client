@@ -71,7 +71,7 @@ public class BetterChat extends Feature {
 			sendAFKMessage(player, splitMessage);
 		
 		if (lottoBuy.isChecked() && message.matches("\\[SB(Lotto|Lottery)\\] Congratulations .*"))
-			ChatUtils.sendMessage(player,  "/lot buy 5");
+			buyLottoTickets(player);
 		
 		if (messageNotifications.isChecked() && message.matches("\\[[a-zA-Z0-9_]* -> me\\].*"))
 			mc.player.playSound(SoundEvents.BLOCK_NOTE_BELL, 10, 5);
@@ -153,6 +153,14 @@ public class BetterChat extends Feature {
 			ChatUtils.sendMessage(player,  "/msg " + msgname + " I am AFK right now ^_^");
 			timeOfLastAFKMessage = currentTime;
     	}
+	}
+	
+	private void buyLottoTickets(EntityPlayerSP player) {
+		String serverName = wurst.getFeatureController().getServerName();
+		if (serverName.equals("economy"))
+			ChatUtils.sendMessage(player, "/lot buy 5");
+		else if (serverName.equals("skyblock"))
+			ChatUtils.sendMessage(player, "/lot buy 2");
 	}
 	
 	private enum Filter {
