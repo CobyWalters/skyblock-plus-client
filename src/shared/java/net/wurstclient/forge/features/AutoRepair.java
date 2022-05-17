@@ -50,12 +50,19 @@ public class AutoRepair extends Feature {
 		if (!InventoryUtils.isTool(currentStack))
 			return;
 		
-		double durability = 1 - currentStack.getItem().getDurabilityForDisplay(currentStack);
+		double durability = 1 - (double) currentStack.getItemDamage() / currentStack.getMaxDamage();
 		long currentTime = Minecraft.getSystemTime();
 		if ((timeOfLastRepair == 0 || currentTime > timeOfLastRepair + 1201000) && durability <= .05) {
 			WMinecraft.getPlayer().sendChatMessage("/repair");
 			timeOfLastRepair = currentTime;
 		}
+	}
+	
+	public boolean canRepair() {
+		String rank = wurst.getFeatureController().getPlayerRank();
+		if (!SkyblockUtils.canUseSpecialCommands(rank))
+			return false;
+		return (timeOfLastRepair == 0 || Minecraft.getSystemTime() > timeOfLastRepair + 1201000);
 	}
 	
 }
