@@ -24,7 +24,7 @@ public class BetterChat extends Feature {
 	
 	private CheckboxSetting clagWarning = new CheckboxSetting("Amplify clag warning", false);
 	private CheckboxSetting AFKMessage = new CheckboxSetting("Reply to messages with AFK warning", false);
-	private CheckboxSetting lottoBuy = new CheckboxSetting("Auto buy 5 lotto tickets", false);
+	private CheckboxSetting lottoBuy = new CheckboxSetting("Auto buy lottery tickets", false);
 	private CheckboxSetting messageNotifications = new CheckboxSetting("Plays a message notification sound", false);
 	private CheckboxSetting filterPlayerAdverts = new CheckboxSetting("Filter player advertisements", false);
 	private EnumSetting<Filter> filter = new EnumSetting<>("Chat filter", Filter.values(), Filter.NONE);
