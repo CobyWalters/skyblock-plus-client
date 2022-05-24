@@ -4,7 +4,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Enchantments;
 import net.minecraft.item.ItemStack;
@@ -16,32 +15,31 @@ import net.wurstclient.fmlevents.WPlayerDamageBlockEvent;
 import net.wurstclient.fmlevents.WUpdateEvent;
 import net.wurstclient.forge.Category;
 import net.wurstclient.forge.Feature;
-import net.wurstclient.forge.ForgeWurst;
 import net.wurstclient.forge.compatibility.WItem;
 import net.wurstclient.forge.compatibility.WMinecraft;
 import net.wurstclient.forge.settings.CheckboxSetting;
+import net.wurstclient.forge.settings.EnumSetting;
 import net.wurstclient.forge.utils.BlockUtils;
-import net.wurstclient.forge.utils.ChatUtils;
-import net.wurstclient.forge.utils.KeyBindingUtils;
 
 public class AutoTool extends Feature {
 	
-	private CheckboxSetting useSwords = 
+	private final CheckboxSetting useSwords = 
 		new CheckboxSetting("Use swords",
 							 "Uses swords to break leaves,\n" +
 							 "cobwebs, etc.", 
 							false);
-	private CheckboxSetting useHands = 
+	private final CheckboxSetting useHands = 
 		new CheckboxSetting("Use hands",
 							"Uses an empty hand or a non-\n" +
 							 "damageable item when no\n" +
 							 "applicable tool is found.",
 							true);
-	private CheckboxSetting repairMode = 
+	private final CheckboxSetting repairMode = 
 		new CheckboxSetting("Repair mode", 
 							"Won't use tools that are about\n" +
 							 "to break.",
 							false);
+	private final EnumSetting<Enchantment> enchantmentPreference = new EnumSetting<>("Enchantment preference", Enchantment.values(), Enchantment.SILK_TOUCH);
 	
 	private int oldSlot;
 	private boolean mining;
@@ -57,6 +55,7 @@ public class AutoTool extends Feature {
 		addSetting(useSwords);
 		addSetting(useHands);
 		addSetting(repairMode);
+		addSetting(enchantmentPreference);
 	}
 	
 	@Override
@@ -117,11 +116,13 @@ public class AutoTool extends Feature {
 			// apply silk touch and fortune scores
 			if (BlockUtils.canSilkHarvest(pos)) {
 				int enchantLevel = EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, stack);
-				score += enchantLevel * 0.01;
+				double factor = enchantmentPreference.getSelected() == Enchantment.SILK_TOUCH ? .1: .01;
+				score += enchantLevel * factor;
 			}
 			if (BlockUtils.canFortuneHarvest(pos)) {
 				int enchantLevel = EnchantmentHelper.getEnchantmentLevel(Enchantments.FORTUNE, stack);
-				score += enchantLevel * .004;
+				double factor = enchantmentPreference.getSelected() == Enchantment.FORTUNE ? .1: .01;
+				score += enchantLevel * factor;
 			}
 			
 			// if the item is a tool, too damaged, and not ready to be repaired, do not switch to it
@@ -166,6 +167,23 @@ public class AutoTool extends Feature {
 	private boolean isTooDamaged(ItemStack stack, boolean repairMode) {
 		double durability = 1 - (double) stack.getItemDamage() / stack.getMaxDamage();
 		return repairMode && durability <= .05;
+	}
+	
+	private enum Enchantment {
+		
+		SILK_TOUCH("Silk Touch"),
+		FORTUNE("Fortune");
+		
+		private final String name;
+		
+		private Enchantment(String name) {
+			this.name = name;
+		}
+		
+		@Override
+		public String toString() {
+			return name;
+		}
 	}
 	
 }
