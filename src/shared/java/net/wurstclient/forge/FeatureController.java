@@ -38,7 +38,7 @@ public final class FeatureController {
 	private final AxisAlignedBB skyblockOldSpawn =
 			new AxisAlignedBB(-4099, 0, -2120, -3899, 256, -1899);
 	private final AxisAlignedBB skyblockInfo =
-			new AxisAlignedBB(2701, 0, -28899, 2901, 256, -28699);
+			new AxisAlignedBB(129901, 0, 129901, 130101, 256, 130101);
 	private final AxisAlignedBB skyblockAirplane =
 			new AxisAlignedBB(2901, 0, 2901, 3101, 256, 3101);
 	private final AxisAlignedBB skyblockCastle =
