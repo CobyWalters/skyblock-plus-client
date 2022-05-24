@@ -1,20 +1,10 @@
 package net.wurstclient.forge.features;
 
-import java.lang.reflect.Field;
-
-import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.wurstclient.fmlevents.WUpdateEvent;
 import net.wurstclient.forge.Category;
 import net.wurstclient.forge.Feature;
-import net.wurstclient.forge.FeatureList;
-import net.wurstclient.forge.utils.BlockUtils;
-import net.wurstclient.forge.utils.InventoryUtils;
-import net.wurstclient.forge.utils.RotationUtils;
 
 public class DisableAll extends Feature {
 		
@@ -24,15 +14,21 @@ public class DisableAll extends Feature {
 	}
 	
 	@Override
-	protected void onEnable() {
-		for (Feature f : wurst.getFeatures().getValues())
-			if (f.isEnabled())
-				f.setEnabled(false);
+	public void onEnable() {
+		MinecraftForge.EVENT_BUS.register(this);
 	}
 	
 	@Override
-	protected void onDisable() {
-		
+	public void onDisable() {
+		MinecraftForge.EVENT_BUS.unregister(this);
+	}
+	
+	@SubscribeEvent
+	public void onUpdate(WUpdateEvent event) {
+		for (Feature f : wurst.getFeatures().getValues())
+			if(f.isEnabled() && f != this)
+				f.setEnabled(false);
+		setEnabled(false);
 	}
 	
 }
