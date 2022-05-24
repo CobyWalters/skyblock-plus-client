@@ -26,8 +26,8 @@ public class DisableAll extends Feature {
 	@Override
 	protected void onEnable() {
 		for (Feature f : wurst.getFeatures().getValues())
-			f.setEnabled(false);
-		//setEnabled(false);
+			if (f.isEnabled())
+				f.setEnabled(false);
 	}
 	
 	@Override
